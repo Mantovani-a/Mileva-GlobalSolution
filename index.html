@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem('mileva-theme') === 'dark' ? 'dark' : 'light'
+      } catch {
+        document.documentElement.dataset.theme = 'light'
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/img/02_simbolo_m_oficial.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F263A" />
+    <meta
+      name="description"
+      content="Mileva: uma proposta de mobilidade e serviços urbanos para Pires do Rio."
+    />
+    <title>Mileva</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
