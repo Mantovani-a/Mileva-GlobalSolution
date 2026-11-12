@@ -2,7 +2,7 @@
 
 Front-end acadêmico CitizenTech da Global Solution FIAP 2026/2. O Mileva reúne mobilidade e informações urbanas em uma interface demonstrativa, com Pires do Rio – GO como cidade-piloto e João Carlos como usuário de exemplo.
 
-O problema, o público-alvo e a proposta estão na página Sobre. Impacto apresenta benefícios esperados e os ODS 10, 11, 12 e 13, sem atribuir resultados medidos ao projeto.
+O problema, o público-alvo, os recursos atuais e o planejamento de funcionalidades futuras estão na página Sobre. Impacto apresenta benefícios esperados e os ODS 10, 11, 12 e 13, sem atribuir resultados medidos ao projeto.
 
 ## Executar
 
@@ -16,31 +16,31 @@ npm run preview
 npm run check:data
 ```
 
-`dev` inicia o desenvolvimento. `build` gera `dist/`. `preview` permite consultar o build localmente. `check:data` verifica IDs, coordenadas e consistência dos registros demonstrativos com Node.js, sem biblioteca de testes.
+`dev` inicia o desenvolvimento. `build` gera `dist/`. `preview` permite consultar o build localmente. `check:data` verifica instâncias POO, IDs, coordenadas geográficas em Pires do Rio – GO e consistência dos registros demonstrativos com Node.js.
 
 O refinamento visual pelas cinco referências atuais está descrito em [RECONSTRUCAO_VISUAL.md](docs/RECONSTRUCAO_VISUAL.md).
 
 ## Tecnologias
 
-React e React DOM, React Router DOM, Bootstrap 5 (grid e utilitários), Vite com o plugin React e Sass. O código usa JavaScript/JSX, HTML semântico, SCSS, SVG e APIs nativas do navegador. Não utiliza biblioteca cartográfica, banco de dados ou autenticação.
+React e React DOM, React Router DOM, Leaflet (mapas interativos centrados em Pires do Rio – GO), Bootstrap 5 (grid e utilitários), Vite com o plugin React e Sass. O código prioriza Programação Orientada a Objetos (POO) em JavaScript/ES6+, HTML semântico, SCSS, SVG vetorial e APIs nativas do navegador. Não utiliza banco de dados ou autenticação real nesta etapa.
 
 ## Páginas e funcionalidades
 
-| Caminho                               | Conteúdo                                          |
-| ------------------------------------- | ------------------------------------------------- |
-| `/`                                   | Painel Demonstrativo com três entradas principais |
-| `/sobre`, `/impacto`, `/equipe`       | Projeto, impacto esperado e integrantes           |
-| `/app`                                | Home aprovada, busca e quatro categorias          |
-| `/app/rotas`                          | Hub dos serviços                                  |
-| `/app/rotas/transporte`               | Filtros locais de linhas e seleção no mapa        |
-| `/app/rotas/transporte/:id`           | Paradas, horários e favorito da linha             |
-| `/app/rotas/caronas`                  | Filtros de trajeto, dia e horário                 |
-| `/app/rotas/coleta`                   | Programação e área por região                     |
-| `/app/rotas/acessibilidade`           | Rotas e locais com filtros de recursos            |
-| `/app/rotas/acessibilidade/:id`       | Recursos e limites da verificação fictícia        |
-| `/app/rotas/acessibilidade/solicitar` | Formulário validado em cinco etapas               |
-| `/app/rotas/acessibilidade/analise`   | Revisão temporária de pedidos fictícios           |
-| `/app/favoritos`, `/app/perfil`       | Itens salvos e Perfil demonstrativo               |
+| Caminho                               | Conteúdo                                                     |
+| ------------------------------------- | ------------------------------------------------------------ |
+| `/`                                   | Painel Demonstrativo com três entradas principais            |
+| `/sobre`, `/impacto`, `/equipe`       | Projeto, roadmap futuro, impacto esperado e integrantes      |
+| `/app`                                | Home aprovada, busca e quatro categorias                     |
+| `/app/rotas`                          | Hub dos serviços e planejamento de funcionalidades futuras   |
+| `/app/rotas/transporte`               | Filtros locais de linhas e seleção no mapa Leaflet           |
+| `/app/rotas/transporte/:id`           | Paradas, horários e favorito da linha                        |
+| `/app/rotas/caronas`                  | Filtros de trajeto, dia e horário com mapa Leaflet           |
+| `/app/rotas/coleta`                   | Programação e polígono de área por região no Leaflet         |
+| `/app/rotas/acessibilidade`           | Rotas e locais com filtros de recursos no Leaflet            |
+| `/app/rotas/acessibilidade/:id`       | Recursos e limites da verificação fictícia                   |
+| `/app/rotas/acessibilidade/solicitar` | Formulário validado em cinco etapas                          |
+| `/app/rotas/acessibilidade/analise`   | Revisão temporária de pedidos fictícios                      |
+| `/app/favoritos`, `/app/perfil`       | Itens salvos e Perfil demonstrativo                          |
 
 A navegação inferior contém somente Início, Rotas, Favoritos e Perfil. A engrenagem abre aparência, Visualização Mobile, tela cheia e retorno ao Painel Demonstrativo. O Perfil também dá acesso ao mesmo painel. Endereços desconhecidos apresentam uma página de orientação.
 
@@ -48,32 +48,32 @@ A navegação inferior contém somente Início, Rotas, Favoritos e Perfil. A eng
 
 1. Abra uma rota de `/app` em janela com pelo menos 768 px de largura.
 2. Na engrenagem, ative **Visualização Mobile**.
-3. Navegue no quadro de 390 px: mapas, filtros, formulários e dock usam um viewport mobile real, com referência de altura de 844 px limitada pelo espaço da janela.
+3. Navegue no quadro de 390 px: mapas Leaflet, filtros, formulários e dock usam um viewport mobile real, com referência de altura de 844 px limitada pelo espaço da janela.
 4. Use **Sair da visualização mobile**, acima do quadro, para voltar à rota atual com os parâmetros de consulta.
 
-Em telas pequenas, o aplicativo usa o layout mobile diretamente. A prévia utiliza um iframe da mesma origem e bloqueia prévias aninhadas. A saída continua acessível durante a rolagem interna. Entrar/sair monta a interface novamente; rascunhos de formulários e seleções não persistidas devem ser concluídos antes de alternar a prévia.
+Em telas pequenas, o aplicativo usa o layout mobile diretamente. A prévia utiliza um iframe da mesma origem e bloqueia prévias aninhadas.
 
 ## Dados e privacidade da demonstração
 
-Os quatro exemplos de transporte, quatro caronas, quatro regiões de coleta e seis registros de acessibilidade formam um catálogo derivado de **18 objetos**, usado na renderização dos Favoritos. Cada módulo mantém seus dados em arquivos JavaScript separados.
+Os quatro exemplos de transporte, quatro caronas, quatro regiões de coleta e seis registros de acessibilidade são instanciados como objetos de domínio (`TransitLine`, `RideOffer`, `CollectionRegion`, `AccessibleRecord`) e formam um catálogo polimórfico de **18 objetos**, usado na renderização dos Favoritos.
 
-Mapas são SVG esquemáticos sem precisão geográfica. Linhas, preços, horários, pessoas das caronas, locais, áreas e verificações são fictícios. Não há veículos em tempo real, reservas, contatos reais ou certificação de estabelecimentos. Recursos de pontos não garantem continuidade acessível do trajeto inteiro.
+Os mapas utilizam Leaflet centrado em Pires do Rio – GO (`-17.3006, -48.2797`) com rotas, polígonos e paradas demonstrativas. Linhas, preços, horários, pessoas das caronas, locais, áreas e verificações são fictícios. Não há veículos em tempo real, reservas, contatos reais ou certificação de estabelecimentos.
 
-O `localStorage` contém somente `mileva-theme` (claro/escuro) e `mileva-demo-favorites` (pares `type`/`id`). O cadastro não grava nome, e-mail ou evidências: JPG, PNG e PDF de até 5 MB ficam na memória da página e são descartados ao sair ou concluir. Aprovações do painel de análise também são temporárias e não publicam locais.
+O `localStorage` contém somente `mileva-theme` (claro/escuro) e `mileva-demo-favorites` (pares `type`/`id`). O cadastro não grava nome, e-mail ou evidências: JPG, PNG e PDF de até 5 MB ficam na memória da página e são descartados ao sair ou concluir.
 
-## Organização
+## Arquitetura de Pastas (React + Vite)
 
-- `src/pages/`: telas e seus fluxos de apresentação.
-- `src/components/`: mapa, navegação, configurações e componentes compartilhados.
-- `src/layouts/`: estruturas institucional e do aplicativo.
-- `src/css/`: tokens e estilos SCSS.
-- `src/js/`: dados demonstrativos e utilitários de filtros, tema e favoritos.
+- `src/components/`: componentes reutilizáveis de interface (mapa Leaflet, cabeçalhos, dock, busca e cartões).
+- `src/pages/`: páginas das rotas institucionais e do aplicativo mobile.
+- `src/layouts/`: estruturas institucional (`InstitutionalLayout.jsx`) e do aplicativo (`AppLayout.jsx`).
+- `src/hooks/`: custom hooks do React (`useFavorites.js`).
+- `src/data/`: dados estáticos e consultas do MVP (`transitData.js`, `ridesData.js`, `collectionData.js`, `accessibilityData.js`, `catalogData.js`, `homeData.js`, `teamData.js`).
+- `src/models/`: modelos de domínio enxutos em POO (`UrbanModels.js`) para conversão geográfica e catálogo.
+- `src/services/`: serviço de renderização do mapa interativo (`LeafletMapService.js`).
+- `src/utils/`: funções utilitárias de tema (`theme.js`) e validação (`registrationValidation.js`).
+- `src/styles/`: tokens, customização do Leaflet e estilos SCSS (`main.scss`, `app-visual.scss`).
 - `public/img/`, `public/equipe/`: logos e fotografias usadas na interface.
-- `design-references/`: referências originais, preservadas.
-- `scripts/`: verificação nativa dos dados.
-- `docs/`: auditoria e orientação para integração.
-
-A formatação segue `.prettierrc.json`: dois espaços, aspas simples e JavaScript sem ponto e vírgula. O Prettier foi usado como ferramenta de edição, sem adicioná-lo às dependências do aplicativo. Para conferir a formatação: `npx prettier@3.6.2 --check "src/**/*.{js,jsx,scss}" scripts/check-demo-data.mjs index.html vite.config.js package.json`.
+- `scripts/`: verificação nativa dos dados demonstrativos (`check-demo-data.mjs`).
 
 ## Equipe
 
@@ -85,16 +85,8 @@ A formatação segue `.prettierrc.json`: dois espaços, aspas simples e JavaScri
 | Marcris Filho     | Front-end • UI/UX Designer       |
 | Nicolas Mantovani | Tech Lead • Full Stack Developer |
 
-Os dados editáveis estão em `src/js/teamData.js`. Não há link de pitch ou deploy confirmado nesta entrega.
+Os dados editáveis estão em `src/data/teamData.js`.
 
 ## Integração e limites da auditoria
 
-Consulte [INTEGRACAO.md](docs/INTEGRACAO.md) para os dados esperados pelos componentes e [ETAPA07_AUDITORIA.md](docs/ETAPA07_AUDITORIA.md) para evidências, critérios verificados e limitações de testes. Em uma hospedagem futura, as rotas do BrowserRouter precisam de fallback para `index.html`.
-
-Backend, dados oficiais, georreferenciamento, validação de evidências, pesquisa e pitch dependem da equipe. Testes em dispositivos físicos, leitores de tela, Firefox e Safari continuam pendentes. Esta auditoria não certifica conformidade completa de acessibilidade nem substitui a conferência do edital oficial pela equipe.
-
-## Créditos e uso de IA generativa
-
-A interface carrega Poppins e Inter pelo Google Fonts; sem conexão, usa as fontes alternativas declaradas no SCSS. React, React Router, Bootstrap, Vite e Sass são as dependências declaradas em `package.json`. Ícones simples são SVG locais.
-
-OpenAI Codex/ChatGPT foi utilizado nesta conversa para implementar, revisar, formatar, documentar e testar o front-end com base nas instruções do responsável. A equipe deve revisar o código e adequar esta declaração ao formulário exigido na entrega acadêmica. Não foram gerados rostos nesta implementação. Logos, fotografias e referências fornecidas foram preservadas; a autoria/proveniência dos assets fornecidos deve ser confirmada pela equipe se exigida pelo edital.
+Consulte [INTEGRACAO.md](docs/INTEGRACAO.md) para a arquitetura POO e contratos esperados pelos componentes e [ETAPA07_AUDITORIA.md](docs/ETAPA07_AUDITORIA.md) para evidências, critérios verificados e limitações de testes.

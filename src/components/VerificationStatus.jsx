@@ -1,4 +1,5 @@
-import { verificationStates } from '../js/demoAccessibility.js'
+import { verificationStates } from '../data/accessibilityData.js'
+
 export default function VerificationStatus({ status }) {
   const state = verificationStates[status] || [
     'Sem informação',
@@ -7,9 +8,8 @@ export default function VerificationStatus({ status }) {
   return (
     <div className="verification-status">
       <strong>
-        {status === 'approved' ? '✓ ' : ''}
         {state[0]}
-        {status === 'approved' ? ' · demonstração' : ''}
+        {status === 'approved' ? ' · demonstração verificada' : ''}
       </strong>
       <p>{state[1]}</p>
     </div>

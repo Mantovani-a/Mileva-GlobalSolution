@@ -1,0 +1,114 @@
+@use 'tokens' as *;
+
+.route-map__viewport {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(15, 38, 58, 0.04) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(0deg, rgba(15, 38, 58, 0.04) 1px, transparent 1px) 0 0 / 28px 28px,
+    #e8eff0;
+}
+
+.route-map__leaflet-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 112px;
+  z-index: 1;
+  font-family: $font-body;
+}
+
+.route-map__a11y-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 2;
+}
+
+.route-map__a11y-overlay [role='button'] {
+  pointer-events: auto;
+}
+
+.mileva-leaflet-marker {
+  background: transparent;
+  border: 0;
+}
+
+.mileva-marker__pin {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin: 2px;
+  border-radius: 50%;
+  border: 2.5px solid $color-navy;
+  background: #ffffff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 3px 8px rgba(15, 38, 58, 0.25);
+  transition: transform 0.15s ease;
+}
+
+.mileva-marker__pin > span:first-child {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #087f72;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.mileva-leaflet-marker.is-origin .mileva-marker__pin > span:first-child {
+  background: $color-navy;
+}
+
+.mileva-leaflet-marker.is-selected .mileva-marker__pin {
+  transform: scale(1.18);
+  border-color: $color-teal;
+  box-shadow: 0 0 0 4px rgba(23, 151, 138, 0.28);
+}
+
+.mileva-marker__verified {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: $color-teal;
+  border: 2px solid #ffffff;
+}
+
+.leaflet-container .leaflet-control-attribution {
+  background: rgba(244, 248, 249, 0.85);
+  color: $color-muted;
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 4px 0 0 0;
+}
+
+.route-map--compact .leaflet-control-attribution {
+  display: none;
+}
+
+[data-theme='dark'] .route-map__viewport {
+  background:
+    linear-gradient(90deg, rgba(219, 238, 241, 0.05) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(0deg, rgba(219, 238, 241, 0.05) 1px, transparent 1px) 0 0 / 28px 28px,
+    #1e3947;
+}
+
+[data-theme='dark'] .leaflet-tile-pane {
+  filter: brightness(0.82) contrast(1.08) saturate(0.85);
+}
+
+[data-theme='dark'] .leaflet-container .leaflet-control-attribution {
+  background: rgba(17, 42, 58, 0.88);
+  color: $color-ice;
+}
+

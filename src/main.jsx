@@ -3,10 +3,11 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap-grid.min.css'
 import 'bootstrap/dist/css/bootstrap-utilities.min.css'
-import './css/main.scss'
-import './css/app-visual.scss'
+import 'leaflet/dist/leaflet.css'
+import './styles/main.scss'
+import './styles/app-visual.scss'
 import App from './App.jsx'
-import { syncThemeFromStorage } from './js/visualPreferences.js'
+import { syncThemeFromStorage } from './utils/theme.js'
 
 syncThemeFromStorage()
 

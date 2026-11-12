@@ -8,13 +8,16 @@ export default function BrandHeader({ destination = '/', children }) {
       </a>
       <header className="site-header">
         <div className="site-container site-header__inner">
-          <Link
-            className="site-header__brand"
-            to={destination}
-            aria-label="Mileva, ir para o início"
-          >
-            <img src="/img/01_logo_oficial_mileva_branca.png" alt="Mileva" />
-          </Link>
+          <div className="site-header__brand-group">
+            <Link
+              className="site-header__brand"
+              to={destination}
+              aria-label="Mileva, ir para o início"
+            >
+              <img src="/img/01_logo_oficial_mileva_branca.png" alt="Mileva" />
+            </Link>
+            <span className="site-header__badge">Piloto · Pires do Rio – GO</span>
+          </div>
           {children}
         </div>
       </header>

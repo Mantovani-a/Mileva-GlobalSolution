@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom'
+import { useFavorites } from '../hooks/useFavorites.js'
 
 const items = [
   { to: '/app', label: 'Início', icon: 'home', end: true },
   { to: '/app/rotas', label: 'Rotas', icon: 'route' },
-  { to: '/app/favoritos', label: 'Favoritos', icon: 'heart' },
+  { to: '/app/favoritos', label: 'Favoritos', icon: 'heart', showCount: true },
   { to: '/app/perfil', label: 'Perfil', icon: 'person' },
 ]
 
@@ -43,16 +44,26 @@ function DockIcon({ name }) {
 }
 
 export default function AppDock() {
+  const { favorites } = useFavorites()
+  const count = favorites.length
+
   return (
     <nav className="app-dock" aria-label="Navegação do aplicativo">
-      {items.map(({ to, label, icon, end }) => (
+      {items.map(({ to, label, icon, end, showCount }) => (
         <NavLink
           key={to}
           to={to}
           end={end}
           className={({ isActive }) => `app-dock__link${isActive ? ' is-active' : ''}`}
         >
-          <DockIcon name={icon} />
+          <span className="app-dock__icon-wrap">
+            <DockIcon name={icon} />
+            {showCount && count > 0 && (
+              <span className="app-dock__badge" aria-label={`${count} salvos`}>
+                {count}
+              </span>
+            )}
+          </span>
           <span>{label}</span>
         </NavLink>
       ))}

@@ -1,6 +1,7 @@
-// Programação e pontos inteiramente ilustrativos; não descrevem o serviço municipal.
+import { CollectionRegion } from '../models/UrbanModels.js'
+
 export const collectionRegions = [
-  {
+  new CollectionRegion({
     id: 'centro',
     name: 'Centro',
     days: 'Terça e sexta',
@@ -22,8 +23,8 @@ export const collectionRegions = [
       { id: 'co-1', name: 'Ponto ilustrativo 1', x: 120, y: 100, detail: 'Descarte demonstrativo' },
       { id: 'co-2', name: 'Ponto ilustrativo 2', x: 300, y: 195, detail: 'Descarte demonstrativo' },
     ],
-  },
-  {
+  }),
+  new CollectionRegion({
     id: 'vila-nova',
     name: 'Vila Nova',
     days: 'Quarta',
@@ -45,8 +46,8 @@ export const collectionRegions = [
       { id: 'vn-1', name: 'Ponto ilustrativo 1', x: 390, y: 75, detail: 'Descarte demonstrativo' },
       { id: 'vn-2', name: 'Ponto ilustrativo 2', x: 510, y: 150, detail: 'Descarte demonstrativo' },
     ],
-  },
-  {
+  }),
+  new CollectionRegion({
     id: 'bairro-sul',
     name: 'Bairro Sul',
     days: 'Quinta',
@@ -68,8 +69,8 @@ export const collectionRegions = [
       { id: 'bs-1', name: 'Ponto ilustrativo 1', x: 280, y: 245, detail: 'Descarte demonstrativo' },
       { id: 'bs-2', name: 'Ponto ilustrativo 2', x: 420, y: 340, detail: 'Descarte demonstrativo' },
     ],
-  },
-  {
+  }),
+  new CollectionRegion({
     id: 'area-escolar',
     name: 'Área Escolar',
     days: 'Segunda',
@@ -91,7 +92,12 @@ export const collectionRegions = [
       { id: 'ae-1', name: 'Ponto ilustrativo 1', x: 80, y: 250, detail: 'Descarte demonstrativo' },
       { id: 'ae-2', name: 'Ponto ilustrativo 2', x: 205, y: 345, detail: 'Descarte demonstrativo' },
     ],
-  },
+  }),
 ]
 
 export const materialExamples = ['Papel', 'Plástico', 'Metal', 'Vidro']
+
+export function findCollectionRegion(id) {
+  return collectionRegions.find((region) => region.id === id) || null
+}
+

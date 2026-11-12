@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom'
 import ServiceIcon from './ServiceIcon.jsx'
-import { nextBusDemo } from '../js/homeDemoData.js'
+import { nextBusDemo } from '../data/homeData.js'
 
 export default function NextBusPreview() {
   return (
@@ -21,7 +22,12 @@ export default function NextBusPreview() {
         max="100"
         aria-label="Progresso ilustrativo do trajeto"
       />
-      <p className="next-bus__disclaimer">ⓘ Previsão simulada · sem dados ao vivo</p>
+      <div className="next-bus__footer">
+        <p className="next-bus__disclaimer">Previsão simulada · sem dados ao vivo</p>
+        <Link className="next-bus__action" to={nextBusDemo.href || '/app/rotas/transporte'}>
+          Ver no mapa <span aria-hidden="true">›</span>
+        </Link>
+      </div>
     </section>
   )
 }

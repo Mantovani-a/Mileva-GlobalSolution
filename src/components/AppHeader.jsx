@@ -2,10 +2,19 @@ import { useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SettingsPanel from './SettingsPanel.jsx'
 
+function resolveBackDestination(pathname) {
+  if (pathname.startsWith('/app/rotas/transporte/')) return '/app/rotas/transporte'
+  if (pathname.startsWith('/app/rotas/acessibilidade/')) return '/app/rotas/acessibilidade'
+  if (pathname.startsWith('/app/rotas/')) return '/app/rotas'
+  return '/app'
+}
+
 export default function AppHeader() {
   const { pathname } = useLocation()
   const home = pathname === '/app'
   const notifications = useRef(null)
+  const backDestination = resolveBackDestination(pathname)
+
   return (
     <>
       <a className="skip-link" href="#conteudo">
@@ -25,11 +34,7 @@ export default function AppHeader() {
               </svg>
             </button>
           ) : (
-            <Link
-              className="app-header__control"
-              to={pathname.startsWith('/app/rotas/') ? '/app/rotas' : '/app'}
-              aria-label="Voltar"
-            >
+            <Link className="app-header__control" to={backDestination} aria-label="Voltar">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="m15 4-8 8 8 8" />
               </svg>

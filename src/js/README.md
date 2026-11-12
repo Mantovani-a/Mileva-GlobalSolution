@@ -1,1 +1,0 @@
-Dados de demonstração da Home, transporte, caronas e coleta, informações confirmadas da equipe, favoritos locais e preferências visuais compartilhadas ficam neste diretório. Os módulos não consultam serviços externos.

@@ -6,7 +6,7 @@ export default function TeamMember({ member }) {
       </div>
       <div className="team-card__text">
         <h2>{member.name}</h2>
-        <p>{member.responsibility}</p>
+        <span className="team-card__role">{member.responsibility}</span>
         {member.description && <p className="team-card__description">{member.description}</p>}
       </div>
     </article>

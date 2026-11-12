@@ -1,4 +1,3 @@
-// Dados e fotos fornecidos para a Etapa 03. Descrições individuais ainda não confirmadas.
 export const teamMembers = [
   { name: 'Davi Rabelo', photo: '/equipe/davi-rabelo.png', responsibility: 'Technical Writer' },
   {
@@ -25,6 +24,7 @@ export const teamMembers = [
 
 export const teamContext = {
   course: 'Global Solution FIAP 2026/2',
-  technologies: ['React', 'JavaScript', 'Vite', 'Bootstrap 5', 'Sass'],
+  technologies: ['React', 'JavaScript (POO)', 'Leaflet', 'Vite', 'Bootstrap 5', 'Sass'],
   pitchUrl: null,
 }
+

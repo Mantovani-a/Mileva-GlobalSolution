@@ -1,40 +1,72 @@
 import { useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import RouteMap from '../components/RouteMap.jsx'
+import FavoriteButton from '../components/FavoriteButton.jsx'
 import ModuleTitle from '../components/ModuleTitle.jsx'
 import ServiceIcon from '../components/ServiceIcon.jsx'
-import { transitLines } from '../js/demoTransit.js'
-import { matchesText } from '../js/filterDemo.js'
+import {
+  getTransitPlacesList,
+  searchTransitLines,
+  transitLines,
+} from '../data/transitData.js'
 
 export default function TransitPage() {
-  const [params] = useSearchParams()
-  const [origin, setOrigin] = useState('')
-  const [destination, setDestination] = useState(params.get('destino') || '')
+  const allLines = transitLines
+  const placesList = getTransitPlacesList()
+  const [params, setSearchParams] = useSearchParams()
+  const initialOrigin = params.get('origem') || ''
+  const initialDestination = params.get('destino') || ''
+
+  const [origin, setOrigin] = useState(initialOrigin)
+  const [destination, setDestination] = useState(initialDestination)
   const [period, setPeriod] = useState('todos')
-  const [results, setResults] = useState(transitLines)
-  const [selectedId, setSelectedId] = useState(transitLines[0].id)
-  const [showAll, setShowAll] = useState(false)
-  const [message, setMessage] = useState('')
+  const [results, setResults] = useState(() =>
+    initialOrigin || initialDestination
+      ? searchTransitLines({
+          origin: initialOrigin,
+          destination: initialDestination,
+          period: 'todos',
+        })
+      : allLines,
+  )
+  const [selectedId, setSelectedId] = useState(
+    () =>
+      (initialOrigin || initialDestination
+        ? searchTransitLines({
+            origin: initialOrigin,
+            destination: initialDestination,
+            period: 'todos',
+          })[0]?.id
+        : allLines[0]?.id) || null,
+  )
+  const [message, setMessage] = useState(() =>
+    initialDestination
+      ? `Filtro inicial aplicado para destino "${initialDestination}".`
+      : '',
+  )
+
+  const hasActiveFilters = Boolean(origin.trim() || destination.trim() || period !== 'todos')
 
   function search(event) {
     event.preventDefault()
-    if (Boolean(origin.trim()) !== Boolean(destination.trim())) {
-      setMessage('Preencha origem e destino ou deixe ambos vazios para ver todas as linhas.')
-      return
-    }
-    const found = transitLines.filter(
-      (line) =>
-        (!origin || matchesText(line.origin, origin)) &&
-        (!destination || matchesText(line.destination, destination)) &&
-        (period === 'todos' || line.period === period),
-    )
+    const found = searchTransitLines({ origin, destination, period })
     setResults(found)
     setSelectedId(found[0]?.id || null)
     setMessage(
       found.length
-        ? `${found.length} linha${found.length > 1 ? 's' : ''} demonstrativa${found.length > 1 ? 's' : ''} encontrada${found.length > 1 ? 's' : ''}.`
+        ? `${found.length} linha${found.length > 1 ? 's' : ''} encontrada${found.length > 1 ? 's' : ''} para a consulta.`
         : 'Nenhuma linha demonstrativa atende a esses filtros.',
     )
+  }
+
+  function clearFilters() {
+    setOrigin('')
+    setDestination('')
+    setPeriod('todos')
+    setResults(allLines)
+    setSelectedId(allLines[0]?.id || null)
+    setMessage('')
+    if (params.size) setSearchParams({}, { replace: true })
   }
 
   return (
@@ -53,7 +85,7 @@ export default function TransitPage() {
               <input
                 value={origin}
                 onChange={(event) => setOrigin(event.target.value)}
-                placeholder="Origem"
+                placeholder="Origem ou parada"
                 list="transit-places"
               />
             </label>
@@ -63,7 +95,7 @@ export default function TransitPage() {
               <input
                 value={destination}
                 onChange={(event) => setDestination(event.target.value)}
-                placeholder="Destino"
+                placeholder="Destino ou parada"
                 list="transit-places"
               />
             </label>
@@ -76,16 +108,16 @@ export default function TransitPage() {
                 setDestination(origin)
               }}
             >
-              ⇅
+              <ServiceIcon name="swap" />
             </button>
           </div>
           <datalist id="transit-places">
-            {['Centro', 'Rodoviária', 'Vila Nova', 'Área Escolar', 'Bairro Sul'].map((place) => (
-              <option key={place}>{place}</option>
+            {placesList.map((place) => (
+              <option key={place} value={place} />
             ))}
           </datalist>
           <details className="extra-filters">
-            <summary>Filtrar horário</summary>
+            <summary>Filtrar por período do dia</summary>
             <label>
               Período do horário
               <select value={period} onChange={(event) => setPeriod(event.target.value)}>
@@ -96,10 +128,17 @@ export default function TransitPage() {
               </select>
             </label>
           </details>
-          <button className="module-primary" type="submit">
-            <ServiceIcon name="search" />
-            Buscar rotas
-          </button>
+          <div className="compact-form__actions">
+            <button className="module-primary" type="submit">
+              <ServiceIcon name="search" />
+              Buscar rotas
+            </button>
+            {hasActiveFilters && (
+              <button className="module-back-pill" type="button" onClick={clearFilters}>
+                Limpar filtros
+              </button>
+            )}
+          </div>
           {message && (
             <p className="form-message" role="status">
               {message}
@@ -115,8 +154,13 @@ export default function TransitPage() {
         title="Mapa das linhas demonstrativas"
       />
       <section className="compact-results" aria-labelledby="transit-results">
-        <h2 id="transit-results">Linhas disponíveis</h2>
-        {results.slice(0, showAll ? results.length : 2).map((line) => (
+        <div className="compact-results__head">
+          <h2 id="transit-results">Linhas disponíveis</h2>
+          <span className="favorites-count-badge">
+            {results.length} {results.length === 1 ? 'linha' : 'linhas'}
+          </span>
+        </div>
+        {results.map((line) => (
           <article
             className={`compact-line${selectedId === line.id ? ' is-selected' : ''}`}
             key={line.id}
@@ -137,14 +181,18 @@ export default function TransitPage() {
                 </span>
               </button>
               <p>
-                {line.departure} · {line.fare} <span className="visually-hidden">simulados</span>
+                {line.departure} · {line.duration} · {line.fare}
               </p>
-              <details className="line-more">
-                <summary>Informações</summary>
-                <p>
-                  {line.duration} · Acessibilidade: {line.accessibility}
-                </p>
-              </details>
+              <div className="compact-line__actions">
+                <FavoriteButton type="transit" id={line.id} label={line.name} />
+                <Link
+                  className="module-back-pill"
+                  to={`/app/rotas/transporte/${line.id}`}
+                  aria-label={`Ver itinerário completo de ${line.name}`}
+                >
+                  Itinerário ›
+                </Link>
+              </div>
             </div>
             <Link
               className="row-chevron"
@@ -155,16 +203,16 @@ export default function TransitPage() {
             </Link>
           </article>
         ))}
-        {results.length > 2 && (
-          <button type="button" className="show-more" onClick={() => setShowAll((value) => !value)}>
-            {showAll ? 'Mostrar menos' : 'Ver todas as linhas'}
-          </button>
-        )}
         {!results.length && (
-          <p className="empty-state">Nenhuma linha encontrada. Ajuste os filtros.</p>
+          <div className="empty-state" role="status">
+            <p>Nenhuma linha encontrada para os filtros informados.</p>
+            <button type="button" className="module-back-pill" onClick={clearFilters}>
+              Mostrar todas as linhas
+            </button>
+          </div>
         )}
       </section>
-      <p className="compact-disclaimer">ⓘ Linhas, horários e valores simulados</p>
+      <p className="compact-disclaimer">Linhas, horários e valores simulados</p>
     </section>
   )
 }

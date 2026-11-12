@@ -1,182 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { LeafletMapService } from '../services/LeafletMapService.js'
+import { GeoCoordinate } from '../models/UrbanModels.js'
 
-const WORLD_WIDTH = 600
-const WORLD_HEIGHT = 400
-
-function MapBase() {
-  return (
-    <g className="route-map__base">
-      <rect width="600" height="400" fill="#e8eff0" />
-      <path
-        d="M0 55 600 75M0 145 600 135M0 235 600 250M0 345 600 325M75 0 90 400M185 0 170 400M295 0 310 400M405 0 390 400M520 0 530 400M0 0 600 400M0 390 500 0"
-        stroke="#fff"
-        strokeWidth="21"
-        fill="none"
-      />
-      <path
-        d="M0 55 600 75M0 145 600 135M0 235 600 250M0 345 600 325M75 0 90 400M185 0 170 400M295 0 310 400M405 0 390 400M520 0 530 400M0 0 600 400M0 390 500 0"
-        stroke="#cedbdd"
-        strokeWidth="1.5"
-        fill="none"
-      />
-      <path
-        d="M0 0h95l-20 42H0zM430 155l80-10 17 65-90 18zM130 255l75 0-15 65-65 2z"
-        fill="#cde5d7"
-      />
-      <path
-        d="M575 0c-35 85-30 140-15 210s5 120 40 190"
-        stroke="#bedfe6"
-        strokeWidth="25"
-        fill="none"
-      />
-      <g
-        className="map-minor-streets"
-        transform="rotate(-28 300 200)"
-        stroke="#fff"
-        strokeWidth="2.5"
-        opacity=".85"
-      >
-        {Array.from({ length: 23 }, (_, index) => (
-          <path key={index} d={`M${index * 32 - 60} -200v800M-200 ${index * 26 - 60}h1000`} />
-        ))}
-      </g>
-      <g className="map-labels" fill="#263d49" fontSize="17" fontWeight="600">
-        <text x="200" y="105">
-          Centro
-        </text>
-        <text x="370" y="350">
-          Setor ilustrativo
-        </text>
-      </g>
-    </g>
-  )
-}
-
-function MapArea({ points, color }) {
-  if (!points?.length) return null
-  return (
-    <polygon
-      points={points.map((point) => point.join(',')).join(' ')}
-      fill={color}
-      fillOpacity=".2"
-      stroke={color}
-      strokeWidth="3"
-      strokeDasharray="8 6"
-    />
-  )
-}
-
-function MapRoutes({ routes, selectedRouteId, onSelectRoute, serviceType }) {
-  return (
-    <g>
-      {routes.map((route) => {
-        const selected = route.id === selectedRouteId
-        return (
-          <polyline
-            key={route.id}
-            points={route.points.map((point) => point.join(',')).join(' ')}
-            fill="none"
-            stroke={route.color}
-            strokeWidth={selected ? '7' : '4'}
-            strokeOpacity={selected ? '1' : '.52'}
-            strokeDasharray={
-              serviceType === 'collection' || route.status === 'unknown' ? '12 7' : undefined
-            }
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            role={onSelectRoute ? 'button' : undefined}
-            tabIndex={onSelectRoute ? 0 : undefined}
-            aria-label={
-              onSelectRoute ? `Selecionar trajeto ${route.name || route.driver}` : undefined
-            }
-            onClick={onSelectRoute ? () => onSelectRoute(route.id) : undefined}
-            onKeyDown={
-              onSelectRoute
-                ? (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault()
-                      onSelectRoute(route.id)
-                    }
-                  }
-                : undefined
-            }
-          />
-        )
-      })}
-    </g>
-  )
-}
-
-function MapPoints({ stops, selectedStopId, onSelectStop }) {
-  return (
-    <g>
-      {stops.map((stop, index) => (
-        <g
-          key={stop.id}
-          className="route-map__marker"
-          role="button"
-          tabIndex="0"
-          aria-label={`Ponto ${index + 1}: ${stop.name}`}
-          aria-pressed={selectedStopId === stop.id}
-          onClick={() => onSelectStop(stop.id)}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-              event.preventDefault()
-              onSelectStop(stop.id)
-            }
-          }}
-        >
-          <circle cx={stop.x} cy={stop.y} r="23" fill="transparent" />
-          <circle
-            cx={stop.x}
-            cy={stop.y}
-            r={selectedStopId === stop.id ? 17 : 14}
-            fill="#fff"
-            stroke="#0f263a"
-            strokeWidth="2"
-          />
-          <circle cx={stop.x} cy={stop.y} r="9" fill={index === 0 ? '#0f263a' : '#087f72'} />
-          {stop.verified && (
-            <text x={stop.x + 14} y={stop.y - 12} fill="#0f263a" fontSize="16" fontWeight="700">
-              ✓
-            </text>
-          )}
-          <text
-            x={stop.x}
-            y={stop.y + 4}
-            textAnchor="middle"
-            fill="#fff"
-            fontSize="10"
-            fontWeight="700"
-          >
-            {index + 1}
-          </text>
-        </g>
-      ))}
-    </g>
-  )
-}
-
-function MapControls({ zoom, setZoom, reset }) {
+function MapControls({ zoomLevel, minZoom, maxZoom, onZoomIn, onZoomOut, onReset }) {
   return (
     <div className="route-map__controls" aria-label="Controles do mapa">
       <button
         type="button"
-        onClick={() => setZoom((value) => Math.min(2, Math.round((value + 0.25) * 100) / 100))}
-        disabled={zoom >= 2}
+        onClick={onZoomIn}
+        disabled={zoomLevel >= maxZoom}
         aria-label="Aproximar mapa"
       >
         +
       </button>
       <button
         type="button"
-        onClick={() => setZoom((value) => Math.max(1, Math.round((value - 0.25) * 100) / 100))}
-        disabled={zoom <= 1}
+        onClick={onZoomOut}
+        disabled={zoomLevel <= minZoom}
         aria-label="Afastar mapa"
       >
         −
       </button>
-      <button type="button" onClick={reset}>
+      <button type="button" onClick={onReset}>
         Repor
       </button>
     </div>
@@ -238,34 +83,100 @@ export default function RouteMap({
   compact = false,
 }) {
   const OptionsTag = compact ? 'details' : 'div'
-  const [zoom, setZoom] = useState(1)
+  const containerRef = useRef(null)
+  const mapServiceRef = useRef(null)
+  const lastFittedRouteRef = useRef(undefined)
+
+  const [zoomLevel, setZoomLevel] = useState(14)
   const [selectedStopId, setSelectedStopId] = useState(null)
   const [showRoute, setShowRoute] = useState(routes.length > 0)
   const [showArea, setShowArea] = useState(true)
   const [showStops, setShowStops] = useState(routes.length > 0)
+
   const route = routes.find((item) => item.id === selectedRouteId) || routes[0]
   const effectiveStopId = activeStopId || selectedStopId
-  const stop = route?.stops?.find((item) => item.id === effectiveStopId)
+  const activeStops = markers || route?.stops || []
+  const stop = activeStops.find((item) => item.id === effectiveStopId)
 
   useEffect(() => {
     setSelectedStopId(null)
-    setZoom(1)
   }, [selectedRouteId])
 
-  const viewWidth = WORLD_WIDTH / zoom
-  const viewHeight = WORLD_HEIGHT / zoom
-  const middle = route?.points?.[Math.floor(route.points.length / 2)] || [300, 200]
-  const viewX = Math.max(0, Math.min(WORLD_WIDTH - viewWidth, middle[0] - viewWidth / 2))
-  const viewY = Math.max(0, Math.min(WORLD_HEIGHT - viewHeight, middle[1] - viewHeight / 2))
+  useEffect(() => {
+    if (!containerRef.current) return undefined
+    const service = new LeafletMapService(containerRef.current)
+    mapServiceRef.current = service
+    setZoomLevel(service.getZoomLevel())
+
+    return () => {
+      service.destroy()
+      mapServiceRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    const service = mapServiceRef.current
+    if (!service) return
+
+    const shouldAutoFit = lastFittedRouteRef.current !== selectedRouteId
+    lastFittedRouteRef.current = selectedRouteId
+
+    service.renderLayers({
+      routes: compact && route ? [route] : routes,
+      selectedRouteId: route?.id,
+      onSelectRoute,
+      area,
+      serviceType,
+      stops: activeStops,
+      selectedStopId: effectiveStopId,
+      onSelectStop: selectStop,
+      showRoute,
+      showArea,
+      showStops,
+      autoFit: shouldAutoFit,
+    })
+    setZoomLevel(service.getZoomLevel())
+  }, [
+    routes,
+    route,
+    selectedRouteId,
+    area,
+    serviceType,
+    activeStops,
+    effectiveStopId,
+    showRoute,
+    showArea,
+    showStops,
+    compact,
+  ])
+
+  function handleZoomIn() {
+    const service = mapServiceRef.current
+    if (!service) return
+    setZoomLevel(service.zoomIn())
+  }
+
+  function handleZoomOut() {
+    const service = mapServiceRef.current
+    if (!service) return
+    setZoomLevel(service.zoomOut())
+  }
 
   function reset() {
-    setZoom(1)
     setSelectedStopId(null)
     onSelectStop?.(null)
     setShowRoute(true)
     setShowArea(true)
     setShowStops(true)
+    const service = mapServiceRef.current
+    if (service) {
+      const boundsPoints = (route?.points || []).map((point) =>
+        GeoCoordinate.fromTuple(point).toLatLngTuple(),
+      )
+      setZoomLevel(service.resetView(boundsPoints))
+    }
   }
+
   function selectStop(id) {
     setSelectedStopId(id)
     onSelectStop?.(id)
@@ -276,39 +187,78 @@ export default function RouteMap({
       <div className="route-map__head">
         <div>
           <strong>{title}</strong>
-          <span>Mapa ilustrativo · sem precisão geográfica</span>
+          <span>Mapa Leaflet · Pires do Rio – GO (dados demonstrativos)</span>
         </div>
-        <MapControls zoom={zoom} setZoom={setZoom} reset={reset} />
+        <MapControls
+          zoomLevel={zoomLevel}
+          minZoom={mapServiceRef.current?.getMinZoom() ?? 12}
+          maxZoom={mapServiceRef.current?.getMaxZoom() ?? 18}
+          onZoomIn={handleZoomIn}
+          onZoomOut={handleZoomOut}
+          onReset={reset}
+        />
       </div>
       <div className="route-map__viewport">
-        <svg
-          viewBox={`${viewX} ${viewY} ${viewWidth} ${viewHeight}`}
+        <div
+          ref={containerRef}
+          className="route-map__leaflet-canvas"
           role="group"
           aria-label={`${title}. ${route ? `${route.origin || route.name} para ${route.destination || 'região selecionada'}.` : 'Sem trajeto selecionado.'}`}
-          preserveAspectRatio="xMidYMid meet"
+        />
+        <svg
+          className="route-map__a11y-overlay"
+          viewBox="0 0 600 400"
+          aria-label="Camada de navegação por teclado do mapa"
         >
-          <MapBase />
-          {showArea && (
-            <MapArea points={area?.points} color={area?.color || route?.color || '#087f72'} />
-          )}
-          {showRoute && (
-            <MapRoutes
-              routes={compact && route ? [route] : routes}
-              selectedRouteId={route?.id}
-              onSelectRoute={onSelectRoute}
-              serviceType={serviceType}
-            />
-          )}
-          {showStops && (
-            <MapPoints
-              stops={markers || route?.stops || []}
-              selectedStopId={effectiveStopId}
-              onSelectStop={selectStop}
-            />
-          )}
+          {showRoute &&
+            (compact && route ? [route] : routes).map((item) => (
+              <polyline
+                key={item.id}
+                points={(item.points || []).map((point) => point.join(',')).join(' ')}
+                fill="none"
+                stroke="transparent"
+                strokeWidth="12"
+                role={onSelectRoute ? 'button' : undefined}
+                tabIndex={onSelectRoute ? 0 : undefined}
+                aria-label={
+                  onSelectRoute ? `Selecionar trajeto ${item.name || item.driver}` : undefined
+                }
+                onClick={onSelectRoute ? () => onSelectRoute(item.id) : undefined}
+                onKeyDown={
+                  onSelectRoute
+                    ? (event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault()
+                          onSelectRoute(item.id)
+                        }
+                      }
+                    : undefined
+                }
+              />
+            ))}
+          {showStops &&
+            activeStops.map((item, index) => (
+              <g
+                key={item.id}
+                className="route-map__marker"
+                role="button"
+                tabIndex="0"
+                aria-label={`Ponto ${index + 1}: ${item.name}`}
+                aria-pressed={effectiveStopId === item.id}
+                onClick={() => selectStop(item.id)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    selectStop(item.id)
+                  }
+                }}
+              >
+                <circle cx={item.x} cy={item.y} r="18" fill="transparent" />
+              </g>
+            ))}
         </svg>
       </div>
-      {compact && <span className="map-stamp">Mapa ilustrativo</span>}
+      {compact && <span className="map-stamp">Leaflet · Pires do Rio</span>}
       <OptionsTag className="map-options">
         {compact && <summary>Camadas e legenda</summary>}
         {(routes.length > 0 || area) && (

@@ -1,6 +1,21 @@
-// Ofertas fictícias, sem pessoas ou contatos reais.
+import { RideOffer } from '../models/UrbanModels.js'
+
+function normalizeText(value) {
+  return String(value ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase()
+}
+
+function matchesText(source, query) {
+  const normalizedQuery = normalizeText(query)
+  if (!normalizedQuery) return true
+  return normalizeText(source).includes(normalizedQuery)
+}
+
 export const rideOffers = [
-  {
+  new RideOffer({
     id: 'carona-a',
     driver: 'Ana L. (fictícia)',
     origin: 'Centro',
@@ -20,8 +35,8 @@ export const rideOffers = [
       { id: 'ra-1', name: 'Centro', x: 145, y: 105, detail: 'Saída ilustrativa' },
       { id: 'ra-2', name: 'Área Escolar', x: 100, y: 305, detail: 'Chegada ilustrativa' },
     ],
-  },
-  {
+  }),
+  new RideOffer({
     id: 'carona-b',
     driver: 'Bruno M. (fictício)',
     origin: 'Vila Nova',
@@ -42,8 +57,8 @@ export const rideOffers = [
       { id: 'rb-1', name: 'Vila Nova', x: 490, y: 90, detail: 'Saída ilustrativa' },
       { id: 'rb-2', name: 'Centro', x: 145, y: 105, detail: 'Chegada ilustrativa' },
     ],
-  },
-  {
+  }),
+  new RideOffer({
     id: 'carona-c',
     driver: 'Carla R. (fictícia)',
     origin: 'Bairro Sul',
@@ -62,8 +77,8 @@ export const rideOffers = [
       { id: 'rc-1', name: 'Bairro Sul', x: 335, y: 335, detail: 'Saída ilustrativa' },
       { id: 'rc-2', name: 'Rodoviária', x: 470, y: 305, detail: 'Chegada ilustrativa' },
     ],
-  },
-  {
+  }),
+  new RideOffer({
     id: 'carona-d',
     driver: 'Daniel P. (fictício)',
     origin: 'Centro',
@@ -84,5 +99,35 @@ export const rideOffers = [
       { id: 'rd-1', name: 'Centro', x: 145, y: 105, detail: 'Saída ilustrativa' },
       { id: 'rd-2', name: 'Bairro Sul', x: 335, y: 335, detail: 'Chegada ilustrativa' },
     ],
-  },
+  }),
 ]
+
+export function searchRideOffers({ origin = '', destination = '', day = 'todos', time = '' } = {}) {
+  return rideOffers.filter((offer) => {
+    const matchesOrigin =
+      !origin ||
+      matchesText(offer.origin, origin) ||
+      offer.stops.some((stop) => matchesText(stop.name, origin))
+    const matchesDestination =
+      !destination ||
+      matchesText(offer.destination, destination) ||
+      matchesText(offer.driver, destination) ||
+      offer.stops.some((stop) => matchesText(stop.name, destination))
+    return (
+      matchesOrigin &&
+      matchesDestination &&
+      offer.matchesDay(day) &&
+      offer.matchesMinTime(time)
+    )
+  })
+}
+
+export function getRidePlacesList() {
+  const places = new Set()
+  for (const offer of rideOffers) {
+    places.add(offer.origin)
+    places.add(offer.destination)
+  }
+  return [...places]
+}
+

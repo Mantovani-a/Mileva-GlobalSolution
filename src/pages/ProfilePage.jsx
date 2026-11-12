@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import SettingsPanel from '../components/SettingsPanel.jsx'
+import ServiceIcon from '../components/ServiceIcon.jsx'
+
 export default function ProfilePage() {
   const openSettings = () => window.dispatchEvent(new Event('mileva:open-settings'))
   return (
@@ -25,17 +27,33 @@ export default function ProfilePage() {
       </button>
       <nav className="profile-links" aria-label="Perfil e configurações">
         <Link to="/app/favoritos">
-          <span aria-hidden="true">☆</span>Meus favoritos<span aria-hidden="true">›</span>
+          <span className="profile-link__icon" aria-hidden="true">
+            <ServiceIcon name="star" />
+          </span>
+          <span>Meus favoritos</span>
+          <span aria-hidden="true">›</span>
         </Link>
         <button type="button" onClick={openSettings}>
-          <span aria-hidden="true">⚙</span>Configurações<span aria-hidden="true">›</span>
+          <span className="profile-link__icon" aria-hidden="true">
+            <ServiceIcon name="settings" />
+          </span>
+          <span>Configurações</span>
+          <span aria-hidden="true">›</span>
         </button>
         <SettingsPanel inline />
         <Link to="/sobre">
-          <span aria-hidden="true">ⓘ</span>Sobre o Mileva<span aria-hidden="true">›</span>
+          <span className="profile-link__icon" aria-hidden="true">
+            <ServiceIcon name="info" />
+          </span>
+          <span>Sobre o Mileva</span>
+          <span aria-hidden="true">›</span>
         </Link>
         <Link to="/equipe">
-          <span aria-hidden="true">♧</span>Nossa equipe<span aria-hidden="true">›</span>
+          <span className="profile-link__icon" aria-hidden="true">
+            <ServiceIcon name="team" />
+          </span>
+          <span>Nossa equipe</span>
+          <span aria-hidden="true">›</span>
         </Link>
       </nav>
       <p className="compact-disclaimer">Perfil demonstrativo</p>

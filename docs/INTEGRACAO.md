@@ -1,34 +1,35 @@
-# Integração futura do front-end
+# Integração futura do front-end e Arquitetura POO
 
-As páginas usam arrays locais. A equipe pode substituir esses dados mantendo os formatos abaixo. Não há cliente HTTP ou endpoint implementado.
+A aplicação utiliza uma arquitetura em **Programação Orientada a Objetos (POO)** dividida em Modelos de Domínio (`src/core/models/`), Repositórios (`src/core/repositories/`), Serviços (`src/core/services/`) e Seeds de Dados (`src/data/`). Não há banco de dados nem cliente HTTP ativo nesta etapa, mas toda a camada de repositórios foi estruturada para substituição direta por chamadas de API/Banco de Dados.
 
-## Mapa SVG
+## Mapa Interativo com Leaflet (`LeafletMapService` e `RouteMap`)
 
-`RouteMap` recebe `routes`, `selectedRouteId` e `onSelectRoute(id)`. Cada rota contém `id`, `name` (ou `driver`), `color`, `points: [[x, y], ...]` e `stops: [{ id, name, x, y, detail }]`. O sistema de coordenadas é ilustrativo: largura 600 e altura 400. Não são latitude/longitude.
+O componente `RouteMap` encapsula o **Leaflet** por meio da classe `LeafletMapService` (`src/core/services/LeafletMapService.js`), centrada na cidade-piloto de **Pires do Rio – GO** (`[-17.3006, -48.2797]`).
 
-`area` aceita `{ points, color }`. `markers` pode fornecer a lista completa de pontos dos locais. `activeStopId` e `onSelectStop(id)` sincronizam seleção com a lista textual; reset pode enviar `null`. `serviceType` diferencia transporte, caronas e coleta. `status: 'unknown'` marca linha tracejada sem continuidade confirmada. `verified` no ponto serve somente aos exemplos aprovados.
+A classe de valor `GeoCoordinate` (`src/core/models/GeoCoordinate.js`) mantém coordenadas híbridas:
+- `lat` e `lng`: coordenadas geográficas reais na malha urbana de Pires do Rio – GO para renderização de `L.polyline`, `L.polygon` e `L.marker` no Leaflet.
+- `x` e `y`: coordenadas proporcionais (`600 × 400`) preservadas para validação de integridade e camada de acessibilidade por teclado.
 
-Fontes geográficas reais precisarão de adaptação própria. Não basta inserir latitude/longitude nas coordenadas SVG.
+## Hierarquia de Classes e Repositórios
 
-## Dados dos módulos
+| Classe de Modelo         | Repositório Correspondente     | Responsabilidade                                                                          |
+| ------------------------ | ------------------------------ | ----------------------------------------------------------------------------------------- |
+| `UrbanServiceEntity`     | `BaseRepository`               | Superclasse abstrata de todos os serviços urbanos catalogáveis                            |
+| `TransitLine`            | `TransitRepository`            | Linhas de ônibus, itinerários, paradas e busca por origem/destino/período                 |
+| `RideOffer`              | `RideRepository`               | Ofertas de caronas recorrentes com filtros de trajeto, dia da semana e horário            |
+| `CollectionRegion`       | `CollectionRepository`         | Regiões de coleta seletiva, polígonos de área atendida e materiais                        |
+| `AccessibleRecord`       | `AccessibilityRepository`      | Rotas e locais acessíveis com recursos, limitações e estado de verificação                |
+| `AccessibilityRequest`   | `AccessibilityRepository`      | Pedidos de cadastro comunitário e transição de estados de revisão                         |
+| `PlannedFeature`         | `PlannedFeaturesRepository`    | Especificação das funcionalidades futuras previstas na página Sobre                       |
 
-| Base                   | Campos de apresentação                                                                                                     |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `demoTransit.js`       | `id`, `name`, `origin`, `destination`, `departure`, `period`, `duration`, `fare`, `accessibility`, geometria SVG           |
-| `demoRides.js`         | `id`, `driver`, `origin`, `destination`, `days`, `time`, `period`, `seats`, geometria SVG                                  |
-| `demoCollection.js`    | `id`, `name`, `days`, `window`, `area`, geometria SVG                                                                      |
-| `demoAccessibility.js` | `id`, `kind`, `name`, `category`, `region`, `status`, `features`, `resources`, `reviewDate`, `limitation`, coordenadas SVG |
+Mantenha IDs estáveis: `FavoritesRepository` referencia os registros por `type`/`id`. O catálogo de 18 objetos é derivado polimorficamente pelo `CatalogRepository` através do método `toCatalogEntry()` de cada subclasse. `npm run check:data` verifica as instâncias das classes, os IDs e os limites geográficos.
 
-Mantenha IDs estáveis: Favoritos referencia os registros por `type`/`id`. O catálogo de 18 objetos é derivado dessas bases em `demoCatalog.js`; labels, links e categorias são calculados sem copiar registros manualmente. `npm run check:data` ajuda a detectar inconsistências.
+## Persistência Local e Serviços
 
-## Persistência e solicitações
+- `FavoritesRepository` (`src/core/repositories/FavoritesRepository.js`) gerencia a chave `mileva-demo-favorites` no `localStorage` com fallback em memória.
+- `ThemePreferenceService` (`src/core/services/ThemePreferenceService.js`) gerencia o tema claro/escuro na chave `mileva-theme`.
+- `RegistrationFormService` (`src/core/services/RegistrationFormService.js`) encapsula as regras de validação em 5 etapas e verificação de arquivos temporários em memória.
 
-`useFavorites` reutiliza o localStorage existente, trata referências antigas e sincroniza alterações entre componentes e documentos da mesma origem. `visualPreferences.js` controla somente o tema. Não grave dados pessoais nessas chaves.
+## Hospedagem e evolução para Banco de Dados
 
-`AccessibilityRegistration` mantém os campos e arquivos em estado React temporário. A integração futura deve definir transporte, autorização, consentimento e tratamento das evidências junto à equipe responsável. Nenhum desses serviços está simulado como real no front-end.
-
-`DemoVerificationPanel` altera apenas sua cópia temporária dos pedidos. Sua aprovação não certifica, persiste ou publica registros. A consulta pública usa somente exemplos previamente aprovados ou sem informação suficiente; pedidos pendentes não entram na lista.
-
-## Hospedagem e entrega coletiva
-
-Configure fallback de rotas para `index.html`. Confirme as fontes oficiais, pesquisas, pitch, proveniência dos assets e exigências do edital com a equipe. Não há URL de produção ou vídeo confirmada no código.
+Configure fallback de rotas para `index.html`. Para conectar um banco de dados futuro, implemente métodos assíncronos nas subclasses de `BaseRepository` consumindo a API oficial sem necessidade de alterar a árvore de componentes React.

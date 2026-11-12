@@ -1,3 +1,5 @@
+import { AccessibleRecord } from '../models/UrbanModels.js'
+
 export const accessibilityFeatures = [
   {
     id: 'mobility',
@@ -20,6 +22,7 @@ export const accessibilityFeatures = [
     description: 'Pictogramas e informações em linguagem clara.',
   },
 ]
+
 export const registrationCategories = [
   'Estabelecimento comercial',
   'Edifício ou serviço público',
@@ -28,6 +31,7 @@ export const registrationCategories = [
   'Trecho de via',
   'Rota ou percurso',
 ]
+
 export const registrationResources = [
   'Rampa de acesso',
   'Elevador',
@@ -43,6 +47,7 @@ export const registrationResources = [
   'Pictogramas',
   'Informações em linguagem clara',
 ]
+
 export const verificationStates = {
   draft: ['Rascunho', 'Pedido ainda em preenchimento.'],
   pending: ['Aguardando análise', 'Pedido demonstrativo ainda não analisado.'],
@@ -54,8 +59,9 @@ export const verificationStates = {
     'Exemplo: as informações apresentadas ainda não permitem confirmar os recursos.',
   ],
 }
+
 export const accessibleRecords = [
-  {
+  new AccessibleRecord({
     id: 'praca-demo',
     kind: 'place',
     name: 'Praça Exemplo',
@@ -66,8 +72,8 @@ export const accessibleRecords = [
     resources: ['Rampa de acesso', 'Piso tátil'],
     x: 180,
     y: 130,
-  },
-  {
+  }),
+  new AccessibleRecord({
     id: 'biblioteca-demo',
     kind: 'place',
     name: 'Biblioteca Modelo',
@@ -78,8 +84,8 @@ export const accessibleRecords = [
     resources: ['Sinalização visual', 'Orientação por pictogramas'],
     x: 420,
     y: 120,
-  },
-  {
+  }),
+  new AccessibleRecord({
     id: 'loja-demo',
     kind: 'place',
     name: 'Loja Horizonte Fictícia',
@@ -90,8 +96,8 @@ export const accessibleRecords = [
     resources: ['Entrada sem degraus', 'Atendimento por comunicação escrita'],
     x: 460,
     y: 290,
-  },
-  {
+  }),
+  new AccessibleRecord({
     id: 'avenida-demo',
     kind: 'route',
     name: 'Avenida Modelo — trecho demonstrativo',
@@ -107,8 +113,8 @@ export const accessibleRecords = [
     ],
     limitation:
       'A análise simulada cobre apenas o trecho marcado. A continuidade até outros locais não foi avaliada.',
-  },
-  {
+  }),
+  new AccessibleRecord({
     id: 'percurso-demo',
     kind: 'route',
     name: 'Percurso Praça–Biblioteca (fictício)',
@@ -125,8 +131,8 @@ export const accessibleRecords = [
     ],
     limitation:
       'Há trechos sem informação. Os recursos dos pontos não garantem acessibilidade do percurso completo.',
-  },
-  {
+  }),
+  new AccessibleRecord({
     id: 'trecho-demo',
     kind: 'route',
     name: 'Trecho Oeste — exemplo',
@@ -140,38 +146,10 @@ export const accessibleRecords = [
       [170, 285],
       [230, 250],
     ],
-  },
-].map((record) => ({
-  ...record,
-  reviewDate: record.status === 'approved' ? '01/10/2026 (fictícia)' : null,
-  limitation:
-    record.limitation ||
-    'Recursos descritos individualmente, sem garantia de acessibilidade universal.',
-  color: record.status === 'approved' ? '#087f72' : '#8054a3',
-}))
+  }),
+]
 
-export function accessibilityMapRecord(record) {
-  const points = record.points || [
-    [record.x, record.y],
-    [record.x + 1, record.y + 1],
-  ]
-  return {
-    ...record,
-    points,
-    stops: (record.kind === 'place' ? points.slice(0, 1) : points).map(([x, y], index) => ({
-      id: `${record.id}-${index}`,
-      verified: record.status === 'approved',
-      name:
-        record.kind === 'place'
-          ? `${record.name} · ${record.status === 'approved' ? '✓ verificação simulada' : 'sem informação'}`
-          : `Ponto ${index + 1}`,
-      x,
-      y,
-      detail: record.resources.join(', '),
-    })),
-  }
-}
-export const demoRequests = [
+export const initialDemoRequests = [
   {
     id: 'DEMO-101',
     name: 'Centro Comunitário Fictício',
@@ -191,3 +169,20 @@ export const demoRequests = [
     status: 'reviewing',
   },
 ]
+
+export function findAccessibleRecord(id) {
+  return accessibleRecords.find((record) => record.id === id) || null
+}
+
+export function filterAccessibleRecords({ kind = 'route', category = '', status = '', features = [] } = {}) {
+  return accessibleRecords.filter((record) =>
+    record.matchesFilter({ kind, category, status, features }),
+  )
+}
+
+export function accessibilityMapRecord(record) {
+  return record instanceof AccessibleRecord
+    ? record.toMapProjection()
+    : new AccessibleRecord(record).toMapProjection()
+}
+

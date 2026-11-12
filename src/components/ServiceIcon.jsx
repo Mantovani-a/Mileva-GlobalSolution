@@ -51,6 +51,95 @@ export default function ServiceIcon({ name, className = '' }) {
         <circle cx="12" cy="9" r="2" />
       </>
     ),
+    swap: (
+      <>
+        <path d="M7 4v16M7 4 3 8m4-4 4 4M17 20V4m0 16-4-4m4 4 4-4" />
+      </>
+    ),
+    calendar: (
+      <>
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M16 3v4M8 3v4M3 10h18" />
+      </>
+    ),
+    clock: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </>
+    ),
+    clipboard: (
+      <>
+        <rect x="5" y="4" width="14" height="17" rx="2" />
+        <path d="M9 4h6v3H9zM9 11h6M9 15h4" />
+      </>
+    ),
+    layers: (
+      <>
+        <path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5M3 17l9 5 9-5" />
+      </>
+    ),
+    star: (
+      <>
+        <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9L12 3Z" />
+      </>
+    ),
+    settings: (
+      <>
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v3m0 14v3M4.9 4.9l2.1 2.1m10 10 2.1 2.1M2 12h3m14 0h3M4.9 19.1 7 17m10-10 2.1-2.1" />
+      </>
+    ),
+    info: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 11v5M12 8h.01" />
+      </>
+    ),
+    team: (
+      <>
+        <circle cx="9" cy="8" r="3" />
+        <path d="M3 19a6 6 0 0 1 12 0" />
+        <circle cx="17" cy="9" r="2.5" />
+        <path d="M15.5 19a5 5 0 0 1 6.5 0" />
+      </>
+    ),
+    moon: (
+      <>
+        <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+      </>
+    ),
+    expand: (
+      <>
+        <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+      </>
+    ),
+    smartphone: (
+      <>
+        <rect x="6" y="2" width="12" height="20" rx="2.5" />
+        <path d="M11 18h2" />
+      </>
+    ),
+    check: (
+      <>
+        <path d="m5 12 5 5L20 7" />
+      </>
+    ),
+    chevronRight: (
+      <>
+        <path d="m9 6 6 6-6 6" />
+      </>
+    ),
+    chevronLeft: (
+      <>
+        <path d="m15 6-6 6 6 6" />
+      </>
+    ),
+    arrowUpRight: (
+      <>
+        <path d="M7 17 17 7M9 7h8v8" />
+      </>
+    ),
   }
   return (
     <svg
@@ -63,7 +152,7 @@ export default function ServiceIcon({ name, className = '' }) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      {drawings[name]}
+      {drawings[name] || drawings.info}
     </svg>
   )
 }

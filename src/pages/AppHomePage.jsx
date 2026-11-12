@@ -2,7 +2,7 @@ import HomeSearch from '../components/HomeSearch.jsx'
 import NextBusPreview from '../components/NextBusPreview.jsx'
 import ServiceShortcut from '../components/ServiceShortcut.jsx'
 import ServiceIcon from '../components/ServiceIcon.jsx'
-import { homeServices } from '../js/homeDemoData.js'
+import { homeServices } from '../data/homeData.js'
 
 export default function AppHomePage() {
   return (

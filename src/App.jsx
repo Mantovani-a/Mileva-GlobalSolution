@@ -20,7 +20,7 @@ import AccessibilityPage from './pages/AccessibilityPage.jsx'
 import AccessibleDetailPage from './pages/AccessibleDetailPage.jsx'
 import AccessibilityRegistration from './pages/AccessibilityRegistration.jsx'
 import DemoVerificationPanel from './pages/DemoVerificationPanel.jsx'
-import { syncThemeFromStorage } from './js/visualPreferences.js'
+import { syncThemeFromStorage } from './utils/theme.js'
 
 export default function App() {
   const location = useLocation()

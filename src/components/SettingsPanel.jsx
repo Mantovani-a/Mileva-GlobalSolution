@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { applyTheme, getSavedTheme, syncThemeFromStorage } from '../js/visualPreferences.js'
+import ServiceIcon from './ServiceIcon.jsx'
+import { applyTheme, getStoredTheme, syncThemeFromStorage } from '../utils/theme.js'
 
 export default function SettingsPanel({ inline = false }) {
   const [open, setOpen] = useState(false)
-  const [theme, setTheme] = useState(getSavedTheme)
+  const [theme, setTheme] = useState(() => getStoredTheme())
   const [full, setFull] = useState(Boolean(document.fullscreenElement))
   const [desktop, setDesktop] = useState(() => window.matchMedia('(min-width: 768px)').matches)
   const [fullMessage, setFullMessage] = useState('')
@@ -16,7 +17,7 @@ export default function SettingsPanel({ inline = false }) {
   const fullscreenDocument = inFrame ? window.parent.document : document
 
   useEffect(() => {
-    if (inline) return
+    if (inline) return undefined
     const openPanel = () => setOpen(true)
     window.addEventListener('mileva:open-settings', openPanel)
     return () => window.removeEventListener('mileva:open-settings', openPanel)
@@ -25,7 +26,7 @@ export default function SettingsPanel({ inline = false }) {
   useEffect(() => {
     const onStorage = () => {
       syncThemeFromStorage()
-      setTheme(getSavedTheme())
+      setTheme(getStoredTheme())
     }
     const onFullscreen = () => setFull(Boolean(fullscreenDocument.fullscreenElement))
     onFullscreen()
@@ -54,8 +55,7 @@ export default function SettingsPanel({ inline = false }) {
   }, [open])
 
   function toggleTheme() {
-    const next = theme === 'dark' ? 'light' : 'dark'
-    applyTheme(next)
+    const next = applyTheme(theme === 'dark' ? 'light' : 'dark')
     setTheme(next)
   }
 
@@ -95,7 +95,9 @@ export default function SettingsPanel({ inline = false }) {
           onClick={toggleTheme}
           aria-pressed={theme === 'dark'}
         >
-          <span aria-hidden="true">☾</span>
+          <span className="profile-link__icon" aria-hidden="true">
+            <ServiceIcon name="moon" />
+          </span>
           <span>Modo escuro</span>
           <span className="switch" aria-hidden="true" />
         </button>
@@ -105,7 +107,9 @@ export default function SettingsPanel({ inline = false }) {
           onClick={toggleFullscreen}
           aria-pressed={full}
         >
-          <span aria-hidden="true">⛶</span>
+          <span className="profile-link__icon" aria-hidden="true">
+            <ServiceIcon name="expand" />
+          </span>
           <span>Tela cheia</span>
           <span className="switch" aria-hidden="true" />
         </button>
@@ -161,7 +165,7 @@ export default function SettingsPanel({ inline = false }) {
             aria-pressed={theme === 'dark'}
           >
             <span>
-              <span aria-hidden="true">◐ </span>Aparência
+              Aparência
               <small>{theme === 'dark' ? 'Modo escuro' : 'Modo claro'}</small>
             </span>
             <span className="switch" aria-hidden="true" />
@@ -173,10 +177,7 @@ export default function SettingsPanel({ inline = false }) {
             aria-pressed={preview}
             disabled={(!desktop && !inFrame) || !location.pathname.startsWith('/app')}
           >
-            <span>
-              <span aria-hidden="true">▯ </span>
-              {preview ? 'Sair da visualização mobile' : 'Visualização Mobile'}
-            </span>
+            <span>{preview ? 'Sair da visualização mobile' : 'Visualização Mobile'}</span>
             <span className="switch" aria-hidden="true" />
           </button>
           <button
@@ -185,10 +186,7 @@ export default function SettingsPanel({ inline = false }) {
             onClick={toggleFullscreen}
             aria-pressed={full}
           >
-            <span>
-              <span aria-hidden="true">⛶ </span>
-              {full ? 'Sair da tela cheia' : 'Entrar em tela cheia'}
-            </span>
+            <span>{full ? 'Sair da tela cheia' : 'Entrar em tela cheia'}</span>
             <span className="switch" aria-hidden="true" />
           </button>
           <Link
@@ -203,7 +201,9 @@ export default function SettingsPanel({ inline = false }) {
             }}
           >
             <span>Voltar ao Painel Demonstrativo</span>
-            <span aria-hidden="true">↗</span>
+            <span className="settings-row__icon" aria-hidden="true">
+              <ServiceIcon name="arrowUpRight" />
+            </span>
           </Link>
         </div>
         <p className="settings-dialog__hint">
