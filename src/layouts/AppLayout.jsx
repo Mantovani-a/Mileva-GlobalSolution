@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import AppHeader from '../components/AppHeader.jsx'
 import AppDock from '../components/AppDock.jsx'
+import MiaChatWidget from '../components/MiaChatWidget.jsx'
 
 export default function AppLayout() {
   const { pathname } = useLocation()
@@ -39,6 +40,7 @@ export default function AppLayout() {
         </div>
       )}
       <footer className="app-footer site-container">Mileva · Demonstração</footer>
+      <MiaChatWidget />
       <AppDock />
     </div>
   )

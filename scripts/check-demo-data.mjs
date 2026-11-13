@@ -18,6 +18,7 @@ import {
   TransitLine,
   UrbanServiceEntity,
 } from '../src/models/UrbanModels.js'
+import { MiaAssistantService } from '../src/services/MiaAssistantService.js'
 
 assert.ok(demoCatalog.length >= 10, 'O catálogo deve conter ao menos dez registros.')
 assert.equal(new Set(demoCatalog.map((item) => `${item.type}:${item.id}`)).size, demoCatalog.length)
@@ -74,6 +75,18 @@ assert.ok(combinedTrips.length >= 2)
 assert.ok(searchTransitLines({ destination: 'Rodoviária' }).length >= 1)
 assert.ok(searchRideOffers({ origin: 'Centro' }).length >= 1)
 
+const miaTraffic = MiaAssistantService.getReply('Como está o fluxo de trânsito agora?')
+assert.equal(miaTraffic.category, 'transito')
+assert.ok(miaTraffic.highlights.length >= 2)
+
+const miaPlaces = MiaAssistantService.getReply('Quais lugares você recomenda em Pires do Rio?')
+assert.equal(miaPlaces.category, 'lugares')
+assert.ok(miaPlaces.highlights.length >= 3)
+
+const miaAccess = MiaAssistantService.getReply('Qual a situação de acessibilidade e rampas?')
+assert.equal(miaAccess.category, 'acessibilidade')
+assert.ok(miaAccess.highlights.length >= 1)
+
 console.log(
-  `Dados e arquitetura consistentes: ${demoCatalog.length} registros no catálogo, ${plannedFeatures.length} funcionalidades futuras planejadas, ${hubLayers.length} camadas integradas e coordenadas georreferenciadas em Pires do Rio - GO.`,
+  `Dados e arquitetura consistentes: ${demoCatalog.length} registros no catálogo, ${plannedFeatures.length} funcionalidades futuras planejadas, ${hubLayers.length} camadas integradas, assistente MIA validada e coordenadas georreferenciadas em Pires do Rio - GO.`,
 )

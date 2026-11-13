@@ -63,13 +63,13 @@ O `localStorage` contém somente `mileva-theme` (claro/escuro) e `mileva-demo-fa
 
 ## Arquitetura de Pastas (React + Vite)
 
-- `src/components/`: componentes reutilizáveis de interface (mapa Leaflet, cabeçalhos, dock, busca e cartões).
+- `src/components/`: componentes reutilizáveis de interface (mapa Leaflet, cabeçalhos, dock, busca, cartões e assistente flutuante `MiaChatWidget.jsx`).
 - `src/pages/`: páginas das rotas institucionais e do aplicativo mobile.
 - `src/layouts/`: estruturas institucional (`InstitutionalLayout.jsx`) e do aplicativo (`AppLayout.jsx`).
 - `src/hooks/`: custom hooks do React (`useFavorites.js`).
-- `src/data/`: dados estáticos e consultas do MVP (`transitData.js`, `ridesData.js`, `collectionData.js`, `accessibilityData.js`, `catalogData.js`, `homeData.js`, `teamData.js`).
+- `src/data/`: dados estáticos e consultas do MVP (`transitData.js`, `ridesData.js`, `collectionData.js`, `accessibilityData.js`, `catalogData.js`, `homeData.js`, `miaData.js`, `teamData.js`).
 - `src/models/`: modelos de domínio enxutos em POO (`UrbanModels.js`) para conversão geográfica e catálogo.
-- `src/services/`: serviço de renderização do mapa interativo (`LeafletMapService.js`).
+- `src/services/`: serviços de renderização do mapa interativo (`LeafletMapService.js`) e motor contextual da assistente urbana MIA (`MiaAssistantService.js`).
 - `src/utils/`: funções utilitárias de tema (`theme.js`) e validação (`registrationValidation.js`).
 - `src/styles/`: tokens, customização do Leaflet e estilos SCSS (`main.scss`, `app-visual.scss`).
 - `public/img/`, `public/equipe/`: logos e fotografias usadas na interface.
