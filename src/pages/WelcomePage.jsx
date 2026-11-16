@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import ServiceIcon from '../components/ServiceIcon.jsx'
-import { demoCatalog } from '../data/catalogData.js'
 import { getHubLayers, homeServices, nextBusDemo } from '../data/homeData.js'
 
 const quickDestinations = ['Rodoviária', 'Praça Central', 'Área Escolar', 'Bairro Sul']
@@ -37,7 +36,6 @@ const institutionalCards = [
 
 export default function WelcomePage() {
   const layers = getHubLayers()
-  const totalRecords = demoCatalog.length
 
   return (
     <div className="welcome-page">
@@ -79,20 +77,6 @@ export default function WelcomePage() {
               <span>Testar em Modo Mobile</span>
             </Link>
           </div>
-          <dl className="welcome-stats" aria-label="Indicadores da demonstração">
-            <div>
-              <dt>Módulos urbanos</dt>
-              <dd>{layers.length} serviços</dd>
-            </div>
-            <div>
-              <dt>Catálogo</dt>
-              <dd>{totalRecords} registros</dd>
-            </div>
-            <div>
-              <dt>Tecnologia</dt>
-              <dd>Leaflet + POO</dd>
-            </div>
-          </dl>
         </div>
 
         <aside className="welcome-device" aria-label="Demonstração visual da página inicial do aplicativo mobile">

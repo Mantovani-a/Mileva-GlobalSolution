@@ -294,14 +294,6 @@ export default function MiaChatWidget() {
       >
         <span className="mia-fab__icon" aria-hidden="true">
           <ServiceIcon name={isOpen ? 'close' : 'sparkles'} />
-          {!isOpen && <span className="mia-fab__online-dot" />}
-        </span>
-        <span className="mia-fab__content">
-          <span className="mia-fab__title-row">
-            <strong>MIA</strong>
-            <span className="mia-fab__tag">IA</span>
-          </span>
-          <small>{isOpen ? 'Fechar chat' : 'Ajuda urbana'}</small>
         </span>
       </button>
     </div>

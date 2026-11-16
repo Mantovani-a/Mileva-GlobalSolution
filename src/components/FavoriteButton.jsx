@@ -23,10 +23,11 @@ export default function FavoriteButton({ type, id, label, removal = false }) {
       className="favorite-button"
       type="button"
       aria-pressed={saved}
+      aria-label={removal ? `Remover ${label} dos favoritos` : undefined}
       onClick={handleToggle}
     >
-      {!removal && <ServiceIcon name="star" />}
-      <span>{removal ? 'Remover dos favoritos' : saved ? 'Salvo' : 'Favoritar'}</span>
+      <ServiceIcon name="star" />
+      {!removal && <span>{saved ? 'Salvo' : 'Favoritar'}</span>}
       <span className="visually-hidden"> {label}</span>
     </button>
   )

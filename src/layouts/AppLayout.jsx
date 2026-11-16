@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import AppHeader from '../components/AppHeader.jsx'
 import AppDock from '../components/AppDock.jsx'
 import MiaChatWidget from '../components/MiaChatWidget.jsx'
+import AppSidebar from '../components/AppSidebar.jsx'
 
 export default function AppLayout() {
   const { pathname } = useLocation()
@@ -30,6 +31,7 @@ export default function AppLayout() {
 
   return (
     <div className="page-shell app-shell">
+      <AppSidebar />
       <AppHeader />
       <main id="conteudo" className="app-main site-container">
         <Outlet />

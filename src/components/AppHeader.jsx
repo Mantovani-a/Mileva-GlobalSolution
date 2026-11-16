@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import SettingsPanel from './SettingsPanel.jsx'
+import ServiceIcon from './ServiceIcon.jsx'
 
 function resolveBackDestination(pathname) {
   if (pathname.startsWith('/app/rotas/transporte/')) return '/app/rotas/transporte'
@@ -69,7 +70,7 @@ export default function AppHeader() {
             aria-label="Fechar notificações"
             onClick={() => notifications.current.close()}
           >
-            ×
+            <ServiceIcon name="close" />
           </button>
         </div>
         <p>Nenhuma notificação nesta demonstração.</p>

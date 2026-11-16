@@ -125,24 +125,6 @@ p {
   width: clamp(7.25rem, 18vw, 9.25rem);
   height: auto;
 }
-.site-header__badge {
-  display: none;
-  align-items: center;
-  padding: 0.28rem 0.7rem;
-  border: 1px solid #2b546c;
-  border-radius: $radius-pill;
-  background: #143247;
-  color: $color-ice;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-@media (min-width: 62rem) {
-  .site-header__badge {
-    display: inline-flex;
-  }
-}
 .site-header__context {
   font-size: 0.78rem;
   color: $color-ice;
@@ -489,32 +471,6 @@ p {
   border-color: $color-teal;
   background: #1a3e57;
 }
-.welcome-stats {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: $space-4;
-  margin: $space-7 0 0;
-  padding-top: $space-5;
-  border-top: 1px solid #1e3b52;
-}
-.welcome-stats div {
-  min-width: 0;
-}
-.welcome-stats dt {
-  font-size: 0.68rem;
-  color: $color-ice;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-}
-.welcome-stats dd {
-  margin: 0.25rem 0 0;
-  font-family: $font-heading;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-}
-
 .welcome-device {
   min-width: 0;
   width: 100%;

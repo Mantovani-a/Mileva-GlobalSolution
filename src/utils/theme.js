@@ -9,20 +9,23 @@ export function getStoredTheme() {
   }
 }
 
-export function applyTheme(theme) {
+export function applyTheme(theme, { persist = true, notify = true } = {}) {
   if (typeof document === 'undefined') return 'light'
   const normalized = theme === 'dark' ? 'dark' : 'light'
+  const changed = document.documentElement.dataset.theme !== normalized
   document.documentElement.dataset.theme = normalized
-  try {
-    window.localStorage.setItem(THEME_STORAGE_KEY, normalized)
-    window.dispatchEvent(new Event('mileva:theme'))
-  } catch {
-    // Ignora falhas de armazenamento local.
+  if (persist) {
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, normalized)
+    } catch {
+      // A interface continua funcional quando o armazenamento está indisponível.
+    }
   }
+  if (changed && notify) window.dispatchEvent(new CustomEvent('mileva:theme', { detail: normalized }))
   return normalized
 }
 
 export function syncThemeFromStorage() {
-  return applyTheme(getStoredTheme())
+  return applyTheme(getStoredTheme(), { persist: false, notify: false })
 }
 

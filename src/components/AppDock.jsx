@@ -1,14 +1,14 @@
 import { NavLink } from 'react-router-dom'
 import { useFavorites } from '../hooks/useFavorites.js'
 
-const items = [
+export const appNavItems = [
   { to: '/app', label: 'Início', icon: 'home', end: true },
   { to: '/app/rotas', label: 'Rotas', icon: 'route' },
   { to: '/app/favoritos', label: 'Favoritos', icon: 'heart', showCount: true },
   { to: '/app/perfil', label: 'Perfil', icon: 'person' },
 ]
 
-function DockIcon({ name }) {
+export function DockIcon({ name }) {
   const paths = {
     home: (
       <>
@@ -49,7 +49,7 @@ export default function AppDock() {
 
   return (
     <nav className="app-dock" aria-label="Navegação do aplicativo">
-      {items.map(({ to, label, icon, end, showCount }) => (
+      {appNavItems.map(({ to, label, icon, end, showCount }) => (
         <NavLink
           key={to}
           to={to}

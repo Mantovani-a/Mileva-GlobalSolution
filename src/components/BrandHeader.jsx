@@ -16,7 +16,6 @@ export default function BrandHeader({ destination = '/', children }) {
             >
               <img src="/img/01_logo_oficial_mileva_branca.png" alt="Mileva" />
             </Link>
-            <span className="site-header__badge">Piloto · Pires do Rio – GO</span>
           </div>
           {children}
         </div>

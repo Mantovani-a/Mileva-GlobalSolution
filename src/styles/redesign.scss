@@ -1,0 +1,238 @@
+/* Shared surfaces and responsive application shell. */
+:root {
+  --app-bg: #f4f8f9;
+  --app-card: #fff;
+  --app-card-border: #d7e5e8;
+  --app-heading: #0f263a;
+  --app-soft: #e9f3f4;
+  --app-accent: #087f73;
+  --app-map-tint: rgba(244, 248, 249, .83);
+  --app-map-image: url('/img/pires-do-rio-streets-light.svg');
+}
+[data-theme='dark'] {
+  --app-bg: #0e2533;
+  --app-card: #193747;
+  --app-card-border: #496572;
+  --app-heading: #f4f8f9;
+  --app-soft: #244653;
+  --app-accent: #70dfd0;
+  --app-map-tint: rgba(14, 37, 51, .79);
+  --app-map-image: url('/img/pires-do-rio-streets.svg');
+}
+.app-shell,
+.app-shell:has(.compact-screen),
+.app-shell:has(.compact-profile),
+.app-shell:has(.app-home),
+[data-theme='dark'] .app-shell:has(.compact-screen),
+[data-theme='dark'] .app-shell:has(.compact-profile),
+[data-theme='dark'] .app-shell:has(.app-home) {
+  background-color: var(--app-bg);
+  background-image: linear-gradient(var(--app-map-tint), var(--app-map-tint)), var(--app-map-image);
+  background-position: center, center;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
+  color: var(--text);
+}
+.app-shell:has(.compact-screen) .app-header,
+.app-shell:has(.compact-profile) .app-header,
+.app-shell .app-header {
+  background: #0f263a;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, .09);
+}
+.app-header__inner { min-height: 64px; }
+.app-header__logo img { width: 132px; }
+.app-header__control:hover,
+.app-header .settings-trigger:hover { background: rgba(255,255,255,.1); }
+.app-shell .app-home__hero {
+  background-color: #0f263a;
+  background-image: linear-gradient(rgba(15, 38, 58, .82), rgba(15, 38, 58, .86)), url('/img/pires-do-rio-streets.svg');
+  background-position: center;
+  background-size: cover;
+}
+.app-sidebar { display: none; }
+.settings-dialog .icon-button {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: #0f263a;
+  border: 1px solid #29495a;
+  color: #fff;
+  line-height: 1;
+}
+.settings-dialog .icon-button svg { width: 21px; height: 21px; }
+.settings-dialog .icon-button:hover { background: #1a4358; color: #fff; }
+[data-theme='dark'] .settings-dialog .icon-button { background: #246879; border-color: #70dfd0; color: #fff; }
+.mia-fab {
+  width: 56px;
+  height: 56px;
+  min-height: 56px;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #286575;
+  background: #0f263a;
+  box-shadow: 0 5px 16px rgba(5,24,38,.23);
+}
+.mia-fab:hover { box-shadow: 0 7px 19px rgba(5,24,38,.29); }
+.mia-fab__icon { width: 40px; height: 40px; flex-basis: 40px; background: transparent; color: #54d9c9; box-shadow: none; }
+.mia-fab__icon svg { width: 27px; height: 27px; stroke-width: 2; }
+.mia-widget { bottom: calc(max(10px, env(safe-area-inset-bottom)) + 82px); }
+.mia-widget.is-open .mia-fab { margin-top: 2px; }
+
+/* Favorites keep every saved catalog entry and make the entire detail area clickable. */
+.favorites-page.compact-screen { display: block; max-width: 76rem; }
+.favorites-page__header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: .5rem 1.5rem; }
+.favorites-page .compact-title { background: transparent; border: 0; box-shadow: none; padding-inline: 0; }
+.favorites-count-badge { margin: 0 0 .5rem; background: var(--app-soft); color: var(--app-heading); border: 1px solid var(--app-card-border); }
+.favorite-group { margin-top: 1.5rem; }
+.favorite-group__heading { display: flex; align-items: center; gap: .6rem; margin-bottom: .7rem; }
+.favorites-page .favorite-group__heading h2 { margin: 0; color: var(--app-heading); font-size: 1.04rem; }
+.favorite-group__heading span { min-width: 1.5rem; min-height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--app-soft); color: var(--app-accent); font-size: .75rem; font-weight: 700; }
+.favorite-list { display: grid; gap: .65rem; }
+.favorite-item { display: flex; align-items: center; min-width: 0; border: 1px solid var(--app-card-border); border-radius: 16px; background: var(--app-card); color: var(--text); overflow: hidden; }
+.favorite-item__link { display: flex; align-items: center; gap: .85rem; flex: 1; min-width: 0; padding: .85rem 1rem; text-decoration: none; }
+.favorite-item__link:hover { background: var(--app-soft); color: var(--app-heading); }
+.favorite-item__icon { flex: 0 0 42px; width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; color: var(--app-accent); background: var(--app-soft); }
+.favorite-item__icon svg { width: 22px; height: 22px; }
+.favorite-item__copy { display: grid; gap: .1rem; min-width: 0; flex: 1; }
+.favorite-item__copy strong { color: var(--app-heading); font-size: .94rem; }
+.favorite-item__copy small { color: var(--muted); font-size: .82rem; }
+.favorite-item__copy em { color: var(--app-accent); font-size: .72rem; font-style: normal; font-weight: 600; }
+.favorite-item__link > svg { width: 18px; height: 18px; flex: 0 0 18px; color: var(--muted); }
+.favorite-item__remove { flex: 0 0 auto; margin-right: .65rem; }
+.favorite-item__remove .favorite-button { width: 40px; height: 40px; min-height: 40px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 10px; background: transparent; color: var(--app-accent); }
+.favorite-item__remove .favorite-button svg { width: 22px; height: 22px; fill: currentColor; }
+.favorite-item__remove .favorite-button:hover { background: var(--app-soft); }
+.favorite-item--missing { justify-content: space-between; padding: .5rem .5rem .5rem 1rem; }
+.favorites-page .empty-state { max-width: 35rem; margin: 2.5rem auto; padding: 2rem; border: 1px solid var(--app-card-border); background: var(--app-card); text-align: center; box-shadow: none; }
+.favorites-page .empty-state h2 { color: var(--app-heading); font-size: 1.25rem; }
+.favorites-empty-icon { width: 60px; height: 60px; display: grid; place-items: center; margin: 0 auto 1rem; border-radius: 17px; color: var(--app-accent); background: var(--app-soft); }
+.favorites-empty-icon svg { width: 29px; height: 29px; }
+
+/* Profile groups use a single surface per section. */
+.compact-profile { max-width: 76rem; width: 100%; }
+.profile-page__intro { margin: .4rem 0 1rem; }
+.profile-page__intro span { color: var(--app-accent); font-size: .76rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+.profile-page__intro h2 { margin: .15rem 0 0; color: var(--app-heading); font-size: clamp(1.5rem, 3vw, 2rem); }
+.app-shell .compact-profile .profile-identity { max-width: none; margin: 0 0 1.5rem; border: 1px solid #236274; background: #12394e; box-shadow: none; }
+.compact-profile .profile-avatar { width: 58px; height: 58px; background: #dcefeb; color: #0f766d; }
+.compact-profile .profile-avatar svg { width: 34px; height: 34px; }
+.compact-profile .profile-identity strong { font-size: 1.22rem; }
+.compact-profile .profile-identity small { font-size: .86rem; color: #cce5e8; }
+.profile-page__sections { display: grid; gap: 1.25rem; }
+.profile-section h2 { margin: 0 0 .45rem .3rem; color: var(--app-heading); font-size: .94rem; font-weight: 700; }
+.app-shell .compact-profile .profile-links { padding: 0 .9rem; border: 1px solid var(--app-card-border); border-radius: 16px; background: var(--app-card); box-shadow: none; }
+.app-shell .compact-profile .profile-links a,
+.app-shell .compact-profile .profile-links button { min-height: 54px; font-size: .91rem; color: var(--text); border-bottom: 1px solid var(--app-card-border); }
+[data-theme='dark'] .app-shell .compact-profile .profile-links { background: var(--app-card); border-color: var(--app-card-border); }
+[data-theme='dark'] .app-shell .compact-profile .profile-links a,
+[data-theme='dark'] .app-shell .compact-profile .profile-links button { color: var(--text); }
+.app-shell .compact-profile .profile-links > :last-child { border-bottom: 0; }
+.profile-link__icon { width: 29px; height: 29px; display: grid; place-items: center; color: var(--app-accent); }
+.profile-link__icon svg { width: 20px; height: 20px; }
+.compact-profile .compact-disclaimer { margin-top: 1rem; }
+
+/* The same street geometry runs through every institutional page. */
+.institutional-shell {
+  background-color: #f4f8f9;
+  background-image: linear-gradient(rgba(244, 248, 249, .86), rgba(244, 248, 249, .86)), url('/img/pires-do-rio-streets-light.svg');
+  background-position: center, center;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
+}
+.institutional-shell:has(.welcome-page),
+.institutional-shell:has(.team-page),
+[data-theme='dark'] .institutional-shell,
+[data-theme='dark'] .institutional-shell:has(.welcome-page),
+[data-theme='dark'] .institutional-shell:has(.team-page) {
+  background-color: #0f263a;
+  background-image: linear-gradient(rgba(15, 38, 58, .78), rgba(15, 38, 58, .86)), url('/img/pires-do-rio-streets.svg');
+  background-position: center, center;
+  background-size: cover, cover;
+  background-attachment: fixed, fixed;
+}
+.welcome { position: relative; isolation: isolate; padding: clamp(1.5rem,4vw,3rem); border-radius: 0; overflow: visible; background: transparent; }
+.welcome::before,
+.welcome::after { content: none; }
+.welcome-device { position: relative; }
+.welcome-device::before { content: ''; position: absolute; z-index: -1; inset: 11% -9%; border-radius: 50%; background: #17978a; opacity: .2; filter: blur(52px); }
+.site-footer__brand a { width: fit-content; color: #536b75; font-size: .72rem; text-decoration: none; }
+.site-footer__brand a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.institutional-shell:has(.welcome-page) .site-footer__brand a,
+.institutional-shell:has(.team-page) .site-footer__brand a,
+[data-theme='dark'] .site-footer__brand a { color: #b5d1d7; }
+
+@media (min-width: 640px) {
+  .mia-widget { right: 18px; }
+  .favorite-list { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .profile-page__sections { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (min-width: 1024px) {
+  .app-shell { display: grid; grid-template-columns: 246px minmax(0,1fr); grid-template-rows: auto 1fr auto; min-height: 100dvh; }
+  .app-sidebar { display: flex; flex-direction: column; grid-column: 1; grid-row: 1 / 4; position: sticky; top: 0; height: 100dvh; padding: 1.7rem .85rem 1rem; background: #0f263a; color: #dcecef; overflow-y: auto; }
+  .app-sidebar__brand { display: block; padding: .15rem .75rem .5rem; }
+  .app-sidebar__brand img { width: 148px; }
+  .app-sidebar__place { display: flex; align-items: center; gap: .4rem; margin: .2rem .75rem 2rem; color: #9fd1cf; font-size: .76rem; }
+  .app-sidebar__place svg { width: 15px; height: 15px; }
+  .app-sidebar__nav { display: grid; gap: .2rem; margin-bottom: 1.55rem; }
+  .app-sidebar__label { padding: 0 .8rem .4rem; color: #86a9b2; text-transform: uppercase; letter-spacing: .11em; font-size: .66rem; font-weight: 700; }
+  .app-sidebar__link { display: flex; align-items: center; gap: .8rem; min-height: 43px; padding: .5rem .8rem; border-radius: 10px; color: #dcecef; text-decoration: none; font-size: .85rem; font-weight: 600; }
+  .app-sidebar__link svg { width: 19px; height: 19px; flex: 0 0 19px; }
+  .app-sidebar__link:hover { background: #1b4054; color: #fff; }
+  .app-sidebar__link.is-active { background: #195361; color: #fff; box-shadow: inset 3px 0 #56d3c2; }
+  .app-sidebar__link small { margin-left: auto; min-width: 20px; padding: 2px 5px; border-radius: 8px; background: #207d77; color: #fff; text-align: center; }
+  .app-sidebar__profile { display: flex; align-items: center; gap: .65rem; margin-top: auto; padding: .8rem .65rem 0; border-top: 1px solid #2c4a5c; color: #fff; text-decoration: none; }
+  .app-sidebar__avatar { width: 37px; height: 37px; flex: 0 0 37px; display: grid; place-items: center; border-radius: 50%; background: #dcefeb; color: #116f66; font-size: .74rem; font-weight: 800; }
+  .app-sidebar__profile > span:nth-child(2) { display: grid; gap: 1px; min-width: 0; }
+  .app-sidebar__profile strong { font-size: .8rem; }
+  .app-sidebar__profile small { color: #a8c5ca; font-size: .68rem; }
+  .app-sidebar__profile svg { width: 16px; height: 16px; margin-left: auto; }
+  .app-shell .app-dock { display: none; }
+  .app-shell .app-header { grid-column: 2; grid-row: 1; background: transparent; border-bottom: 1px solid var(--app-card-border); color: var(--app-heading); }
+  .app-header__inner { width: min(100% - 3rem, 90rem); height: 64px; grid-template-columns: 44px 1fr auto; }
+  .app-header__logo { display: none; }
+  .app-header__control, .app-header .settings-trigger { color: var(--app-heading); }
+  .app-header__control:hover, .app-header .settings-trigger:hover { background: var(--app-soft); }
+  .app-shell:has(.app-home) .app-header__right .settings-trigger { display: grid; }
+  .app-shell .app-main { grid-column: 2; grid-row: 2; width: min(100% - 3rem, 90rem); padding: 2rem 0 4rem; margin-inline: auto; min-width: 0; }
+  .app-shell .app-main:has(.compact-screen), .app-shell .app-main:has(.compact-profile) { width: min(100% - 3rem, 90rem); padding-top: 2rem; }
+  .app-shell .app-main:has(.app-home) { width: min(100% - 3rem, 90rem); padding: 2rem 0 4rem; }
+  .app-shell .app-home__hero { border-radius: 20px; }
+  .app-shell .app-home__hero-inner { width: 100%; display: grid; grid-template-columns: minmax(0,1fr) minmax(18rem,.72fr); align-items: center; gap: 2rem; padding: 2.4rem; }
+  .app-shell .app-home__hero h1 { font-size: clamp(1.8rem, 3vw, 2.7rem); }
+  .app-shell .app-home__content { width: 100%; margin-top: 1.5rem; grid-template-columns: minmax(0, 1.35fr) minmax(17rem, .65fr); gap: 1.5rem; }
+  .app-shell .service-shortcut, .app-shell .next-bus { background: var(--app-card); border: 1px solid var(--app-card-border); box-shadow: none; color: var(--text); }
+  .app-shell .service-shortcut strong, .app-shell .next-bus h2 { color: var(--app-heading); }
+  .app-shell .app-footer { display: block; grid-column: 2; grid-row: 3; width: min(100% - 3rem, 90rem); padding: 1rem 0 1.5rem; border-top: 1px solid var(--app-card-border); }
+  .app-shell .mia-widget { right: 24px; bottom: 24px; }
+  .app-toast { bottom: 28px; }
+  .compact-screen { max-width: none; grid-template-columns: minmax(20rem,.82fr) minmax(0,1.18fr); gap: 1.4rem; }
+  .compact-screen > .route-map { grid-column: 2; grid-row: 1 / 3; }
+  .compact-screen .route-map--compact .route-map__viewport { height: min(53vw, 520px); min-height: 390px; }
+  .module-layout { grid-template-columns: minmax(0,1.25fr) minmax(20rem,.75fr); gap: 1.4rem; }
+  .module-map .route-map__viewport { min-height: 460px; }
+  .detail-layout { grid-template-columns: minmax(0,1.3fr) minmax(18rem,.7fr); gap: 1.4rem; }
+  .favorite-list { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .profile-page__sections { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (min-width: 1450px) {
+  .app-shell { grid-template-columns: 270px minmax(0,1fr); }
+  .app-shell .app-home__content { grid-template-columns: minmax(0,1.5fr) minmax(21rem,.5fr); }
+  .favorite-list { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+@media (max-width: 767px) {
+  .app-shell .app-main:has(.compact-screen),
+  .app-shell .app-main:has(.compact-profile) { padding-bottom: 160px; }
+  .welcome { padding: 1.4rem; }
+  .institutional-shell:has(.welcome-page),
+  .institutional-shell:has(.team-page),
+  [data-theme='dark'] .institutional-shell,
+  [data-theme='dark'] .institutional-shell:has(.welcome-page),
+  [data-theme='dark'] .institutional-shell:has(.team-page) {
+    background-image: linear-gradient(rgba(15, 38, 58, .85), rgba(15, 38, 58, .9)), url('/img/pires-do-rio-streets.svg');
+  }
+  .favorite-list { grid-template-columns: 1fr; }
+}

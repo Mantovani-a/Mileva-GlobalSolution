@@ -7,6 +7,10 @@ export default function ProfilePage() {
   return (
     <section className="profile-page compact-profile">
       <h1 className="visually-hidden">Perfil e configurações</h1>
+      <div className="profile-page__intro">
+        <span>Minha conta</span>
+        <h2>Perfil e preferências</h2>
+      </div>
       <button
         className="profile-identity"
         type="button"
@@ -25,37 +29,52 @@ export default function ProfilePage() {
         </span>
         <span aria-hidden="true">›</span>
       </button>
-      <nav className="profile-links" aria-label="Perfil e configurações">
-        <Link to="/app/favoritos">
-          <span className="profile-link__icon" aria-hidden="true">
-            <ServiceIcon name="star" />
-          </span>
-          <span>Meus favoritos</span>
-          <span aria-hidden="true">›</span>
-        </Link>
-        <button type="button" onClick={openSettings}>
-          <span className="profile-link__icon" aria-hidden="true">
-            <ServiceIcon name="settings" />
-          </span>
-          <span>Configurações</span>
-          <span aria-hidden="true">›</span>
-        </button>
-        <SettingsPanel inline />
-        <Link to="/sobre">
-          <span className="profile-link__icon" aria-hidden="true">
-            <ServiceIcon name="info" />
-          </span>
-          <span>Sobre o Mileva</span>
-          <span aria-hidden="true">›</span>
-        </Link>
-        <Link to="/equipe">
-          <span className="profile-link__icon" aria-hidden="true">
-            <ServiceIcon name="team" />
-          </span>
-          <span>Nossa equipe</span>
-          <span aria-hidden="true">›</span>
-        </Link>
-      </nav>
+      <div className="profile-page__sections">
+        <section className="profile-section" aria-labelledby="profile-account-title">
+          <h2 id="profile-account-title">Conta</h2>
+          <nav className="profile-links" aria-label="Conta">
+            <Link to="/app/favoritos">
+              <span className="profile-link__icon" aria-hidden="true">
+                <ServiceIcon name="star" />
+              </span>
+              <span>Meus favoritos</span>
+              <span aria-hidden="true">›</span>
+            </Link>
+          </nav>
+        </section>
+        <section className="profile-section" aria-labelledby="profile-preferences-title">
+          <h2 id="profile-preferences-title">Preferências</h2>
+          <nav className="profile-links" aria-label="Preferências">
+            <button type="button" onClick={openSettings}>
+              <span className="profile-link__icon" aria-hidden="true">
+                <ServiceIcon name="settings" />
+              </span>
+              <span>Configurações</span>
+              <span aria-hidden="true">›</span>
+            </button>
+            <SettingsPanel inline />
+          </nav>
+        </section>
+        <section className="profile-section" aria-labelledby="profile-institution-title">
+          <h2 id="profile-institution-title">Institucional</h2>
+          <nav className="profile-links" aria-label="Institucional">
+            <Link to="/sobre">
+              <span className="profile-link__icon" aria-hidden="true">
+                <ServiceIcon name="info" />
+              </span>
+              <span>Sobre o Mileva</span>
+              <span aria-hidden="true">›</span>
+            </Link>
+            <Link to="/equipe">
+              <span className="profile-link__icon" aria-hidden="true">
+                <ServiceIcon name="team" />
+              </span>
+              <span>Nossa equipe</span>
+              <span aria-hidden="true">›</span>
+            </Link>
+          </nav>
+        </section>
+      </div>
       <p className="compact-disclaimer">Perfil demonstrativo</p>
     </section>
   )

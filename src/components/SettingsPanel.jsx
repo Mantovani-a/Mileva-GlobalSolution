@@ -28,14 +28,15 @@ export default function SettingsPanel({ inline = false }) {
       syncThemeFromStorage()
       setTheme(getStoredTheme())
     }
+    const onTheme = (event) => setTheme(event.detail || getStoredTheme())
     const onFullscreen = () => setFull(Boolean(fullscreenDocument.fullscreenElement))
     onFullscreen()
     window.addEventListener('storage', onStorage)
-    window.addEventListener('mileva:theme', onStorage)
+    window.addEventListener('mileva:theme', onTheme)
     fullscreenDocument.addEventListener('fullscreenchange', onFullscreen)
     return () => {
       window.removeEventListener('storage', onStorage)
-      window.removeEventListener('mileva:theme', onStorage)
+      window.removeEventListener('mileva:theme', onTheme)
       fullscreenDocument.removeEventListener('fullscreenchange', onFullscreen)
     }
   }, [fullscreenDocument])
@@ -153,7 +154,7 @@ export default function SettingsPanel({ inline = false }) {
             onClick={() => setOpen(false)}
             aria-label="Fechar configurações"
           >
-            ×
+            <ServiceIcon name="close" />
           </button>
         </div>
         <p className="settings-dialog__intro">Ajuste a forma de visualizar o Mileva.</p>

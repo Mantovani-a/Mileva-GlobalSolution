@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap-utilities.min.css'
 import 'leaflet/dist/leaflet.css'
 import './styles/main.scss'
 import './styles/app-visual.scss'
+import './styles/redesign.scss'
 import App from './App.jsx'
 import { syncThemeFromStorage } from './utils/theme.js'
 
