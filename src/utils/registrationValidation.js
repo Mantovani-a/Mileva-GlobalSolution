@@ -75,3 +75,50 @@ export function generateProtocolCode() {
   return `DEMO-${Date.now().toString().slice(-6)}`
 }
 
+export const CONTACT_SUBJECTS = [
+  'Dúvida sobre o projeto Mileva',
+  'Sugestão de rota ou serviço em Pires do Rio – GO',
+  'Parceria institucional (Prefeitura / Cooperativa)',
+  'Avaliação acadêmica — Global Solution FIAP',
+]
+
+export function createEmptyContactDraft() {
+  return {
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  }
+}
+
+export function validateContactForm(data = {}) {
+  const errors = {}
+  const name = String(data.name ?? '').trim()
+  const email = String(data.email ?? '').trim()
+  const subject = String(data.subject ?? '').trim()
+  const message = String(data.message ?? '').trim()
+
+  if (!name || name.length < 3) {
+    errors.name = 'Informe seu nome completo (mínimo de 3 caracteres).'
+  }
+
+  if (!email) {
+    errors.email = 'Preencha o e-mail para retorno.'
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errors.email = 'Informe um e-mail válido no formato nome@exemplo.com.'
+  }
+
+  if (!subject) {
+    errors.subject = 'Selecione o assunto da mensagem.'
+  }
+
+  if (!message || message.length < 15) {
+    errors.message = 'Escreva uma mensagem com pelo menos 15 caracteres.'
+  } else if (message.length > 500) {
+    errors.message = 'A mensagem deve ter no máximo 500 caracteres.'
+  }
+
+  return errors
+}
+
+

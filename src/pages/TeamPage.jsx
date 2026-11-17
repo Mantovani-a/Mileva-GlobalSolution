@@ -1,4 +1,5 @@
 import ActionLink from '../components/ActionLink.jsx'
+import ContactSection from '../components/ContactSection.jsx'
 import TeamMember from '../components/TeamMember.jsx'
 import { teamContext, teamMembers } from '../data/teamData.js'
 
@@ -29,7 +30,7 @@ export default function TeamPage() {
             </div>
             <div>
               <dt>Design System</dt>
-              <dd>Mobile-First · Zero Emojis</dd>
+              <dd>Mobile-First</dd>
             </div>
           </dl>
         </aside>
@@ -62,6 +63,8 @@ export default function TeamPage() {
           <a href={teamContext.pitchUrl}>Assistir ao vídeo pitch</a>
         </p>
       )}
+
+      <ContactSection />
 
       <div className="editorial-actions">
         <ActionLink to="/app">Explorar o aplicativo</ActionLink>

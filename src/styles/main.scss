@@ -1437,6 +1437,268 @@ p {
   background: #1a3e57;
 }
 
+.team-contact {
+  display: grid;
+  gap: $space-6;
+  margin-top: $space-8;
+  padding: $space-6;
+  border: 1px solid #2d5168;
+  border-radius: $radius-md;
+  background: #132f44;
+  color: $color-white;
+  scroll-margin-top: 6rem;
+}
+
+@media (min-width: 860px) {
+  .team-contact {
+    grid-template-columns: minmax(18rem, 0.9fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+}
+
+.team-contact__info h2 {
+  margin: 0.25rem 0 $space-3;
+  color: #fff;
+  font-size: clamp(1.45rem, 2.8vw, 1.9rem);
+}
+
+.team-contact__lead {
+  margin: 0 0 $space-5;
+  color: $color-ice;
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.team-contact__highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: $space-3;
+}
+
+.team-contact__highlights li {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid #26485e;
+  border-radius: $radius-sm;
+  background: #0f263a;
+}
+
+.team-contact__highlights .team-contact__icon {
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 2.35rem;
+  border-radius: 0.65rem;
+  background: rgba(23, 151, 138, 0.2);
+  color: #66dfd0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: block;
+  }
+}
+
+.team-contact__highlights strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+
+.team-contact__highlights div > span {
+  display: block;
+  font-size: 0.82rem;
+  color: $color-ice;
+  line-height: 1.4;
+}
+
+.team-contact__card {
+  padding: $space-5;
+  border: 1px solid #2d5168;
+  border-radius: $radius-md;
+  background: #0f263a;
+}
+
+.team-contact__form {
+  display: grid;
+  gap: $space-4;
+}
+
+.team-contact__field {
+  display: grid;
+  gap: 0.4rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #eaf6f8;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border-radius: $radius-sm;
+    border: 1px solid #31566e;
+    background: #15344b;
+    color: #ffffff;
+    font-size: 0.9rem;
+    transition: border-color 0.15s ease;
+
+    &::placeholder {
+      color: #8eb2be;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #54d9c9;
+    }
+
+    &[aria-invalid='true'] {
+      border-color: #f28b82;
+      background: rgba(122, 39, 39, 0.22);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 6.5rem;
+  }
+}
+
+.team-contact__label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.team-contact__counter {
+  font-size: 0.75rem;
+  color: #9ec0c9;
+  font-weight: 600;
+}
+
+.team-contact__error {
+  color: #ffb4ab;
+  font-size: 0.79rem;
+  font-weight: 600;
+}
+
+.team-contact__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-top: 0.25rem;
+
+  small {
+    color: #9ec0c9;
+    font-size: 0.78rem;
+  }
+}
+
+.team-contact__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.35rem;
+  border: 0;
+  border-radius: $radius-pill;
+  background: $color-teal;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &:hover {
+    background: #127d72;
+  }
+}
+
+.team-contact__success {
+  display: grid;
+  gap: $space-4;
+
+  h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 1.25rem;
+  }
+
+  p {
+    margin: 0;
+    color: $color-ice;
+    font-size: 0.9rem;
+  }
+}
+
+.team-contact__success-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  padding: 0.35rem 0.8rem;
+  border-radius: $radius-pill;
+  background: rgba(23, 151, 138, 0.22);
+  border: 1px solid rgba(84, 217, 201, 0.45);
+  color: #76e4cf;
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+}
+
+.team-contact__summary {
+  margin: 0;
+  padding: $space-4;
+  border-radius: $radius-sm;
+  border: 1px solid #26485e;
+  background: #143247;
+  display: grid;
+  gap: 0.65rem;
+
+  div {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  dt {
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #9ec0c9;
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #ffffff;
+    word-break: break-word;
+  }
+}
+
 .app-shell {
   background: #eef5f5;
 }

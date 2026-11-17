@@ -87,6 +87,16 @@ export default function ProfilePage() {
               <span>Nossa equipe</span>
               <span aria-hidden="true">›</span>
             </Link>
+            <Link
+              to="/equipe#contato"
+              onClick={(event) => handleInstitutionalNav(event, '/equipe#contato')}
+            >
+              <span className="profile-link__icon" aria-hidden="true">
+                <ServiceIcon name="chat" />
+              </span>
+              <span>Fale conosco</span>
+              <span aria-hidden="true">›</span>
+            </Link>
           </nav>
         </section>
       </div>

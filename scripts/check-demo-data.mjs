@@ -19,6 +19,7 @@ import {
   UrbanServiceEntity,
 } from '../src/models/UrbanModels.js'
 import { MiaAssistantService } from '../src/services/MiaAssistantService.js'
+import { CONTACT_SUBJECTS, validateContactForm } from '../src/utils/registrationValidation.js'
 
 assert.ok(demoCatalog.length >= 10, 'O catálogo deve conter ao menos dez registros.')
 assert.equal(new Set(demoCatalog.map((item) => `${item.type}:${item.id}`)).size, demoCatalog.length)
@@ -86,6 +87,17 @@ assert.ok(miaPlaces.highlights.length >= 3)
 const miaAccess = MiaAssistantService.getReply('Qual a situação de acessibilidade e rampas?')
 assert.equal(miaAccess.category, 'acessibilidade')
 assert.ok(miaAccess.highlights.length >= 1)
+
+const emptyContactErrors = validateContactForm({})
+assert.ok(emptyContactErrors.name && emptyContactErrors.email && emptyContactErrors.subject && emptyContactErrors.message)
+
+const validContactErrors = validateContactForm({
+  name: 'João Carlos',
+  email: 'joao@mileva.org',
+  subject: CONTACT_SUBJECTS[0],
+  message: 'Gostaria de sugerir uma nova parada próxima à Biblioteca Modelo.',
+})
+assert.equal(Object.keys(validContactErrors).length, 0)
 
 console.log(
   `Dados e arquitetura consistentes: ${demoCatalog.length} registros no catálogo, ${plannedFeatures.length} funcionalidades futuras planejadas, ${hubLayers.length} camadas integradas, assistente MIA validada e coordenadas georreferenciadas em Pires do Rio - GO.`,

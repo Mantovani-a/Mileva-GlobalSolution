@@ -20,12 +20,19 @@ function resolveActiveIndex(pathname) {
 }
 
 export default function InstitutionalLayout() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
   const activeIndex = resolveActiveIndex(pathname)
 
   useEffect(() => {
+    if (hash) {
+      const targetElement = document.querySelector(hash)
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        return
+      }
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [pathname])
+  }, [pathname, hash])
 
   return (
     <div className="page-shell institutional-shell">
@@ -73,6 +80,7 @@ export default function InstitutionalLayout() {
             <Link to="/sobre">Sobre</Link>
             <Link to="/impacto">Impacto</Link>
             <Link to="/equipe">Equipe</Link>
+            <Link to="/equipe#contato">Contato</Link>
             <Link to="/app">Abrir Aplicativo</Link>
           </nav>
         </div>
