@@ -11,7 +11,8 @@ export default function MobilePreview() {
       const params = new URLSearchParams(location.search)
       params.delete('preview')
       params.set('embedded', '1')
-      return `${location.pathname}?${params}`
+      const targetPath = `${location.pathname}?${params}`
+      return `/?embedded=1&target=${encodeURIComponent(targetPath)}`
     })(),
   )
 

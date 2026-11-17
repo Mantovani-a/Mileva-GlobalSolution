@@ -1,6 +1,6 @@
 import MobilePreview from './components/MobilePreview.jsx'
 import { useEffect, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import InstitutionalLayout from './layouts/InstitutionalLayout.jsx'
 import AppLayout from './layouts/AppLayout.jsx'
 import WelcomePage from './pages/WelcomePage.jsx'
@@ -38,11 +38,17 @@ export default function App() {
     }
   }, [])
 
+  const searchParams = new URLSearchParams(location.search)
+  const embeddedTarget = searchParams.get('target')
+  if (location.pathname === '/' && embeddedTarget && embeddedTarget.startsWith('/app')) {
+    return <Navigate to={embeddedTarget} replace />
+  }
+
   const preview =
     window.self === window.top &&
     desktop &&
     location.pathname.startsWith('/app') &&
-    new URLSearchParams(location.search).get('preview') === 'mobile'
+    searchParams.get('preview') === 'mobile'
   if (preview) return <MobilePreview />
 
   return (
