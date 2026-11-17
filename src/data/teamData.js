@@ -25,6 +25,6 @@ export const teamMembers = [
 export const teamContext = {
   course: 'Global Solution FIAP 2026/2',
   technologies: ['React', 'JavaScript (POO)', 'SVG Interativo', 'Vite', 'Bootstrap 5', 'Sass'],
-  pitchUrl: null,
+  pitchUrl: 'https://www.youtube.com/watch?v=a6SgM2AwL3U',
 }
 

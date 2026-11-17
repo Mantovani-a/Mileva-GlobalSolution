@@ -58,16 +58,20 @@ export default function TeamPage() {
         </ul>
       </section>
 
-      {teamContext.pitchUrl && (
-        <p>
-          <a href={teamContext.pitchUrl}>Assistir ao vídeo pitch</a>
-        </p>
-      )}
-
       <ContactSection />
 
       <div className="editorial-actions">
         <ActionLink to="/app">Explorar o aplicativo</ActionLink>
+        {teamContext.pitchUrl && (
+          <a
+            className="action-link action-link--secondary"
+            href={teamContext.pitchUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Assistir ao vídeo pitch
+          </a>
+        )}
         <ActionLink to="/sobre" variant="secondary">
           Sobre o projeto
         </ActionLink>
