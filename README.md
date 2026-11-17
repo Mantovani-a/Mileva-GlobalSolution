@@ -89,5 +89,5 @@ Os dados editáveis estão em `src/data/teamData.js`.
 
 ## Vídeo Pitch
 
-- **Apresentação em vídeo (Pitch de até 3 minutos)**: *(Inserir link público do vídeo pitch antes do envio final do pacote)*
-- **Deploy de demonstração**: configurável via Vercel (`vercel.json` incluso na raiz do projeto).
+- **Apresentação em vídeo (Pitch de até 3 minutos)**: https://www.youtube.com/watch?v=a6SgM2AwL3U
+- **Deploy de demonstração**:  https://mileva-global-solution.vercel.app
