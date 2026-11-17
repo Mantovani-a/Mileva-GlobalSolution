@@ -170,7 +170,7 @@ export default function RoutesPage() {
       </div>
 
       <p className="compact-disclaimer">
-        Mapas em Leaflet centrados em Pires do Rio – GO · dados demonstrativos
+        Mapa esquemático interativo em SVG de Pires do Rio – GO · dados demonstrativos
       </p>
     </section>
   )

@@ -29,7 +29,7 @@ const institutionalCards = [
     tag: 'Global Solution FIAP',
     title: 'Nossa equipe e arquitetura técnica',
     description:
-      'Conheça os responsáveis pelo desenvolvimento, o design system mobile-first e a estrutura orientada a objetos com Leaflet.',
+      'Conheça os responsáveis pelo desenvolvimento, o design system mobile-first e a estrutura orientada a objetos com mapas em SVG.',
     cta: 'Ver equipe e stack',
   },
 ]
