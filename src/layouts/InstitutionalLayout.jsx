@@ -71,6 +71,9 @@ export default function InstitutionalLayout() {
           <div className="site-footer__brand">
             <strong>Mileva · Mobilidade e Serviços Urbanos</strong>
             <span>Projeto acadêmico FIAP · Cidade-piloto demonstrativa: Pires do Rio – GO</span>
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">
+              Fundo cartográfico: © OpenStreetMap contributors
+            </a>
           </div>
           <nav className="site-footer__links" aria-label="Atalhos do rodapé">
             <Link to="/">Início</Link>

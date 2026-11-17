@@ -53,7 +53,7 @@ const features = [
   {
     icon: 'pin',
     title: 'Rotas e informações úteis da cidade',
-    detail: 'Mapa esquemático interativo em SVG de Pires do Rio – GO.',
+    detail: 'Mapa integrado em Leaflet centrado em Pires do Rio – GO.',
   },
   {
     icon: 'clipboard',
@@ -87,7 +87,7 @@ export default function AboutPage() {
             </div>
             <div>
               <dt>Arquitetura</dt>
-              <dd>POO + Mapas SVG</dd>
+              <dd>POO + Mapas Leaflet</dd>
             </div>
             <div>
               <dt>Estágio atual</dt>

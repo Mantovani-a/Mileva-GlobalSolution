@@ -1,5 +1,6 @@
 @use 'tokens' as *;
 @use 'modules';
+@use 'leaflet-custom';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap');
 
 :root {
@@ -1711,62 +1712,6 @@ p {
     color: #ffffff;
     word-break: break-word;
   }
-}
-
-.map-canvas-bg {
-  fill: #e7f0f3;
-}
-
-.map-waterway {
-  stroke: #bde0e6;
-}
-
-.map-block {
-  fill: #f5f9fa;
-  stroke: #d7e6eb;
-  stroke-width: 1;
-}
-
-.map-block--park {
-  fill: #d8efe6;
-  stroke: #b5dfd0;
-}
-
-.map-stop-pill {
-  fill: rgba(255, 255, 255, 0.94);
-  stroke: #b9d4dc;
-  stroke-width: 1;
-}
-
-.map-stop-pill__text {
-  fill: #0f263a;
-}
-
-[data-theme='dark'] .map-canvas-bg {
-  fill: #0f2637;
-}
-
-[data-theme='dark'] .map-waterway {
-  stroke: #1b4b5c;
-}
-
-[data-theme='dark'] .map-block {
-  fill: #163345;
-  stroke: #244b60;
-}
-
-[data-theme='dark'] .map-block--park {
-  fill: #184443;
-  stroke: #25645e;
-}
-
-[data-theme='dark'] .map-stop-pill {
-  fill: rgba(15, 38, 58, 0.94);
-  stroke: #4c7280;
-}
-
-[data-theme='dark'] .map-stop-pill__text {
-  fill: #f4f8f9;
 }
 
 .welcome-problem__grid {

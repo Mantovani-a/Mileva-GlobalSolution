@@ -56,7 +56,7 @@ export const plannedFeatures = [
     summary:
       'Consulta rápida no mapa para unidades de saúde, escolas, praças, feiras e pontos de atendimento em Pires do Rio.',
     technicalScope:
-      'Camada interativa em SVG com filtros rápidos por categoria e atalho direto para traçar chegada pelo transporte local.',
+      'Camada interativa no Leaflet com filtros rápidos por categoria e atalho direto para traçar chegada pelo transporte local.',
     targetAudiences: ['Idosos', 'Estudantes', 'Moradores que consultam informações da cidade'],
   },
   {
