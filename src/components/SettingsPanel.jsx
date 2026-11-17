@@ -81,6 +81,10 @@ export default function SettingsPanel({ inline = false }) {
       window.parent.postMessage({ type: 'MILEVA_EXIT_PREVIEW' }, window.location.origin)
       return
     }
+    if (!location.pathname.startsWith('/app')) {
+      navigate('/app?preview=mobile')
+      return
+    }
     const params = new URLSearchParams(location.search)
     if (preview) params.delete('preview')
     else params.set('preview', 'mobile')
@@ -176,7 +180,7 @@ export default function SettingsPanel({ inline = false }) {
             type="button"
             onClick={togglePreview}
             aria-pressed={preview}
-            disabled={(!desktop && !inFrame) || !location.pathname.startsWith('/app')}
+            disabled={!desktop && !inFrame}
           >
             <span>{preview ? 'Sair da visualização mobile' : 'Visualização Mobile'}</span>
             <span className="switch" aria-hidden="true" />

@@ -4,6 +4,14 @@ import ServiceIcon from '../components/ServiceIcon.jsx'
 
 export default function ProfilePage() {
   const openSettings = () => window.dispatchEvent(new Event('mileva:open-settings'))
+
+  function handleInstitutionalNav(event, targetPath) {
+    if (window.self !== window.top) {
+      event.preventDefault()
+      window.parent.postMessage({ type: 'MILEVA_GO_PANEL', to: targetPath }, window.location.origin)
+    }
+  }
+
   return (
     <section className="profile-page compact-profile">
       <h1 className="visually-hidden">Perfil e configurações</h1>
@@ -58,14 +66,21 @@ export default function ProfilePage() {
         <section className="profile-section" aria-labelledby="profile-institution-title">
           <h2 id="profile-institution-title">Institucional</h2>
           <nav className="profile-links" aria-label="Institucional">
-            <Link to="/sobre">
+            <Link to="/sobre" onClick={(event) => handleInstitutionalNav(event, '/sobre')}>
               <span className="profile-link__icon" aria-hidden="true">
                 <ServiceIcon name="info" />
               </span>
               <span>Sobre o Mileva</span>
               <span aria-hidden="true">›</span>
             </Link>
-            <Link to="/equipe">
+            <Link to="/impacto" onClick={(event) => handleInstitutionalNav(event, '/impacto')}>
+              <span className="profile-link__icon" aria-hidden="true">
+                <ServiceIcon name="layers" />
+              </span>
+              <span>Impacto e ODS</span>
+              <span aria-hidden="true">›</span>
+            </Link>
+            <Link to="/equipe" onClick={(event) => handleInstitutionalNav(event, '/equipe')}>
               <span className="profile-link__icon" aria-hidden="true">
                 <ServiceIcon name="team" />
               </span>

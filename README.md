@@ -16,9 +16,7 @@ npm run preview
 npm run check:data
 ```
 
-`dev` inicia o desenvolvimento. `build` gera `dist/`. `preview` permite consultar o build localmente. `check:data` verifica instâncias POO, IDs, coordenadas geográficas em Pires do Rio – GO e consistência dos registros demonstrativos com Node.js.
-
-O refinamento visual pelas cinco referências atuais está descrito em [RECONSTRUCAO_VISUAL.md](docs/RECONSTRUCAO_VISUAL.md).
+`dev` inicia o desenvolvimento. `build` gera `dist/`. `preview` permite consultar o build localmente. `check:data` verifica instâncias POO, IDs, coordenadas geográficas em Pires do Rio – GO, respostas da assistente MIA e consistência dos registros demonstrativos com Node.js.
 
 ## Tecnologias
 
@@ -71,9 +69,10 @@ O `localStorage` contém somente `mileva-theme` (claro/escuro) e `mileva-demo-fa
 - `src/models/`: modelos de domínio enxutos em POO (`UrbanModels.js`) para conversão geográfica e catálogo.
 - `src/services/`: serviços de renderização do mapa interativo (`LeafletMapService.js`) e motor contextual da assistente urbana MIA (`MiaAssistantService.js`).
 - `src/utils/`: funções utilitárias de tema (`theme.js`) e validação (`registrationValidation.js`).
-- `src/styles/`: tokens, customização do Leaflet e estilos SCSS (`main.scss`, `app-visual.scss`).
-- `public/img/`, `public/equipe/`: logos e fotografias usadas na interface.
-- `scripts/`: verificação nativa dos dados demonstrativos (`check-demo-data.mjs`).
+- `src/styles/`: tokens, customização do Leaflet e estilos SCSS (`main.scss`, `app-visual.scss`, `redesign.scss`).
+- `public/img/`, `public/equipe/`: logos, ilustrações cartográficas e fotografias da equipe usadas na interface.
+- `scripts/`: verificação automatizada dos dados demonstrativos e da assistente MIA (`check-demo-data.mjs`).
+- `vercel.json`: configuração de roteamento SPA para deploy em produção.
 
 ## Equipe
 
@@ -86,7 +85,3 @@ O `localStorage` contém somente `mileva-theme` (claro/escuro) e `mileva-demo-fa
 | Nicolas Mantovani | Tech Lead • Full Stack Developer |
 
 Os dados editáveis estão em `src/data/teamData.js`.
-
-## Integração e limites da auditoria
-
-Consulte [INTEGRACAO.md](docs/INTEGRACAO.md) para a arquitetura POO e contratos esperados pelos componentes e [ETAPA07_AUDITORIA.md](docs/ETAPA07_AUDITORIA.md) para evidências, critérios verificados e limitações de testes.

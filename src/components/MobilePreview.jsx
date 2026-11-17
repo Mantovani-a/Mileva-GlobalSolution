@@ -40,7 +40,7 @@ export default function MobilePreview() {
       )
         return
       if (event.data?.type === 'MILEVA_EXIT_PREVIEW') exitPreview()
-      if (event.data?.type === 'MILEVA_GO_PANEL') navigate('/')
+      if (event.data?.type === 'MILEVA_GO_PANEL') navigate(event.data?.to || '/')
     }
     window.addEventListener('message', onMessage)
     return () => window.removeEventListener('message', onMessage)
