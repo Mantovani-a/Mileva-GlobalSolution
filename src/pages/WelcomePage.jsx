@@ -4,6 +4,37 @@ import { getHubLayers, homeServices, nextBusDemo } from '../data/homeData.js'
 
 const quickDestinations = ['Rodoviária', 'Praça Central', 'Área Escolar', 'Bairro Sul']
 
+const realDataFacts = [
+  {
+    stat: '21,4%',
+    label: 'Deslocamento mais longo por ônibus',
+    detail:
+      'Participação do ônibus como meio de transporte em que a pessoa passa mais tempo no deslocamento para o trabalho.',
+    source: 'Fonte: IBGE — Censo Demográfico 2022 (resultados preliminares da amostra).',
+  },
+  {
+    stat: '60,5%',
+    label: 'Municípios com coleta seletiva informada',
+    detail:
+      'Evidencia tanto a presença do serviço quanto a necessidade de ampliar a divulgação clara de dias, horários e regiões para a população.',
+    source: 'Fonte: IBGE — Pesquisa de Informações Básicas Municipais (MUNIC 2023).',
+  },
+]
+
+const targetCitizens = [
+  'Trabalhadores e estudantes em deslocamento diário',
+  'Usuários do transporte público coletivo',
+  'Idosos e pessoas com deficiência ou mobilidade reduzida',
+  'Moradores que consultam coleta seletiva e serviços do bairro',
+]
+
+const welcomeOdsList = [
+  { code: 'ODS 10', name: 'Redução das Desigualdades' },
+  { code: 'ODS 11', name: 'Cidades e Comunidades Sustentáveis' },
+  { code: 'ODS 12', name: 'Consumo e Produção Responsáveis' },
+  { code: 'ODS 13', name: 'Ação Contra a Mudança Global do Clima' },
+]
+
 const institutionalCards = [
   {
     number: '01',
@@ -79,7 +110,10 @@ export default function WelcomePage() {
           </div>
         </div>
 
-        <aside className="welcome-device" aria-label="Demonstração visual da página inicial do aplicativo mobile">
+        <aside
+          className="welcome-device"
+          aria-label="Demonstração visual da página inicial do aplicativo mobile"
+        >
           <div className="welcome-device__chassis">
             <div className="welcome-device__screen">
               <header className="welcome-phone__header">
@@ -156,7 +190,7 @@ export default function WelcomePage() {
                     <span className="welcome-phone__bus-time">{nextBusDemo.estimatedArrival}</span>
                   </div>
                   <div className="welcome-phone__bus-track" aria-hidden="true">
-                    <span style={{ width: `${nextBusDemo.progress}%` }} />
+                    <span className="welcome-phone__bus-fill" />
                   </div>
                   <div className="welcome-phone__bus-footer">
                     <small>Previsão simulada · sem dados ao vivo</small>
@@ -199,10 +233,72 @@ export default function WelcomePage() {
         </aside>
       </section>
 
+      <section className="welcome-section welcome-problem" aria-labelledby="welcome-problem-title">
+        <div className="welcome-section__head">
+          <div>
+            <p className="eyebrow">O Problema Urbano e Quem Atendemos</p>
+            <h2 id="welcome-problem-title">
+              Por que centralizar as rotas e serviços da cidade?
+            </h2>
+          </div>
+          <Link className="welcome-section__link" to="/sobre">
+            Ver análise completa ›
+          </Link>
+        </div>
+
+        <div className="welcome-problem__grid">
+          <article className="welcome-problem__card">
+            <span className="eyebrow">Desafio Identificado</span>
+            <h3>Informação espalhada dificulta o dia a dia do cidadão</h3>
+            <p>
+              Em muitas cidades, horários de ônibus, oportunidades de carona recorrente, calendários
+              de coleta seletiva e condições de acessibilidade estão fragmentados em canais
+              diferentes ou desatualizados — comprometendo o tempo e o acesso a serviços essenciais.
+            </p>
+            <div className="welcome-problem__citizens">
+              <strong>Quem é o cidadão atendido pelo Mileva:</strong>
+              <ul>
+                {targetCitizens.map((citizen) => (
+                  <li key={citizen}>{citizen}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+
+          <div className="welcome-problem__stats">
+            {realDataFacts.map((fact) => (
+              <article className="welcome-stat-card" key={fact.stat}>
+                <div className="welcome-stat-card__top">
+                  <strong className="welcome-stat-card__number">{fact.stat}</strong>
+                  <span className="welcome-stat-card__label">{fact.label}</span>
+                </div>
+                <p>{fact.detail}</p>
+                <small>{fact.source}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="welcome-ods-bar" aria-label="Objetivos de Desenvolvimento Sustentável relacionados">
+          <div className="welcome-ods-bar__intro">
+            <span className="eyebrow">Agenda 2030 · ONU</span>
+            <strong>ODS conectados à proposta do Mileva</strong>
+          </div>
+          <div className="welcome-ods-bar__pills">
+            {welcomeOdsList.map((ods) => (
+              <Link key={ods.code} to="/impacto" className="welcome-ods-pill">
+                <strong>{ods.code}</strong>
+                <span>{ods.name}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="welcome-section" aria-labelledby="welcome-modules-title">
         <div className="welcome-section__head">
           <div>
-            <p className="eyebrow">Ecossistema de Mobilidade e Cidade</p>
+            <p className="eyebrow">A Proposta de Solução</p>
             <h2 id="welcome-modules-title">Quatro serviços conectados no seu bolso</h2>
           </div>
           <Link className="welcome-section__link" to="/app/rotas">

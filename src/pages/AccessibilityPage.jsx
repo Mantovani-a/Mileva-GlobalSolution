@@ -167,7 +167,7 @@ export default function AccessibilityPage() {
           </article>
         )}
 
-        <div className="compact-results__head" style={{ marginTop: '14px' }}>
+        <div className="compact-results__head">
           <h2>{kind === 'place' ? 'Locais catalogados' : 'Rotas catalogadas'}</h2>
           <span className="favorites-count-badge">
             {results.length} {results.length === 1 ? 'item' : 'itens'}

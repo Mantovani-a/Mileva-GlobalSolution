@@ -4,6 +4,7 @@ Front-end acadêmico CitizenTech da Global Solution FIAP 2026/2. O Mileva reúne
 
 O problema, o público-alvo, os recursos atuais e o planejamento de funcionalidades futuras estão na página Sobre. Impacto apresenta benefícios esperados e os ODS 10, 11, 12 e 13, sem atribuir resultados medidos ao projeto.
 
+Link do Pitch Video: https://www.youtube.com/watch?v=a6SgM2AwL3U
 ## Executar
 
 Use Node.js 20.19+ na série 20 ou Node.js 22.12+ e npm, conforme os requisitos do Vite instalado.
@@ -85,3 +86,8 @@ O `localStorage` contém somente `mileva-theme` (claro/escuro) e `mileva-demo-fa
 | Nicolas Mantovani | Tech Lead • Full Stack Developer |
 
 Os dados editáveis estão em `src/data/teamData.js`.
+
+## Vídeo Pitch
+
+- **Apresentação em vídeo (Pitch de até 3 minutos)**: *(Inserir link público do vídeo pitch antes do envio final do pacote)*
+- **Deploy de demonstração**: configurável via Vercel (`vercel.json` incluso na raiz do projeto).

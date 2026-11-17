@@ -40,7 +40,7 @@ export default function InstitutionalLayout() {
         <nav
           className="institutional-nav"
           aria-label="Navegação institucional"
-          style={{ '--active-index': Math.max(0, activeIndex) }}
+          data-active-index={Math.max(0, activeIndex)}
           data-has-active={activeIndex >= 0 ? 'true' : 'false'}
         >
           <span className="institutional-nav__indicator" aria-hidden="true" />

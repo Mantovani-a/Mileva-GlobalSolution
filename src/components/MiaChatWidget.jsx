@@ -263,7 +263,11 @@ export default function MiaChatWidget() {
 
           <form className="mia-sheet__form" onSubmit={handleFormSubmit}>
             <div className="mia-input-pill">
+              <label htmlFor="mia-question-input" className="visually-hidden">
+                Digite sua pergunta para a MIA
+              </label>
               <input
+                id="mia-question-input"
                 ref={inputRef}
                 type="text"
                 value={inputValue}
